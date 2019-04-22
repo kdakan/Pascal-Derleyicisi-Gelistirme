@@ -25,14 +25,14 @@
 ## 1. Derleyici bileşenleri:
 Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
 
-1. Tarayıcı (kelime analizi yapar, kelime tablosunu üretir)
-2. Parser (sözdizimi analizi & anlam analizi yapar, sembol tablosunu üretir ve kontrol amaçlı kullanır)
-3. Kod üretici (kod üretimi yapar, makine kodu veya arakod üretir)
-4. Optimizasyon (kod optimizasyonu yapar, hız ve bellek kullanımı açısından optimize edilmiş makine kodu üretir)
+1. Tarayıcı (scanner/lexer) (kelime analizi yapar, kelime tablosunu üretir)
+2. Ayrıştırıcı (parser) (sözdizimi analizi & anlam analizi yapar, sembol tablosunu üretir ve kontrol amaçlı kullanır)
+3. Kod üretici (code generator) (kod üretimi yapar, makine kodu veya arakod üretir)
+4. Optimizasyon (kod optimizasyonu, yani en iyileştirmesi yapar, hız ve bellek kullanımı açısından optimize edilmiş makine kodu üretir)
 
 - Kelime analizinin amacı, dili oluşturan kelimeleri (token) tanımak ve bunları sözdizimi analizi için parser'a iletmektir. 
-- Parser, tarayıcıdan ardarda aldığı kelimelere, dilin özel (ayrılmış) kelime ve işaretleri yardımıyla sözdizimsel anlamlar yükler. Bu, bir cümledeki kelimelere özne, nesne, zarf, yüklem gibi görevleri yüklemeye benzer. 
-- Bu kelimeler tanındıkça sembol tablosu denen veri yapısına birtakım yan bilgilerle birlikte (değişken tipleri, adresleri, büyüklükleri, vb.) birlikte kaydedilir. Aynı kelimeler tekrar kullanıldıklarında, kullanıldıkları yere göre sembol tablosunda kayıtlı bulunan bilgiler alınarak hata kontrolü yapılır. 
+- Ayrıştırıcı (parser), tarayıcıdan ardarda aldığı kelimelere, dilin özel (ayrılmış) kelime ve işaretleri yardımıyla sözdizimsel anlamlar yükler. Bu, bir cümledeki kelimelere özne, nesne, zarf, yüklem gibi görevleri yüklemeye benzer. 
+- Bu kelimeler tanındıkça sembol tablosu denen veri yapısına birtakım yan bilgilerle birlikte (değişken tipleri, adresleri, büyüklükleri, vb.) birlikte kaydedilir. Aynı kelimeler tekrar kullanıldıklarında, kullanıldıkları yere göre sembol tablosunda kayıtlı bulunan bilgiler alınarak hata kontrolü yapılır, hata var ise uygun bir sözdimi veya semantik hata kodu üretilir. 
 - Son aşama ise, bu kelimelerin cümledeki rolü ve anlamını kullanarak,buna uygun makine kodları üretmektir. Gerekirse üretilen kod optimize edilerek hızlandırılabilir, veya bellekte tuttuğu alan küçültülebilir. 
 - Optimizasyonun daha etkin yapılabilmesi için ve değişik makineler için kod üretilebilmesi için, bu işler için daha uygun ve daha genel bir arakod üretilip, daha sonra bu arakod optimize edilip istenen makine için kod üretilebilir. 
 - Bazı derleyiciler ise sanal bir makine için hızlı yorumlanabilen bir kod üretir ve bu kodu yorumlayarak programı değişik makinelerde çalıştırır.
@@ -66,19 +66,19 @@ Chomsky sınıflandırmasına göre gramerler genelden özele doğru birbirlerin
 1. Serbest gramerler:
 Üretimler u -> v şeklindedir. Burada u,v∈V ve u≠EPSİLON dur.
 
-2. Çevre-bağımlı (context-sensitive) gramerler:
+2. Bağlam-duyarlı (context-sensitive) gramerler:
 Üretimler uxv -> uvw şeklindedir. Burada u,v,w⊂V, v≠EPSİLON ve x∈N dir. Yani, x ara sembolü, yalnızca u ve w sembol grupları ile çevrelendiği takdirde v sembol grubu ile türetilebilir.
 
-3. Çevre-bağımsız (context-free) gramerler:
+3. Bağlamdan-bağımsız (context-free) gramerler:
 Üretimler x->v şeklindedir. Burada v∈V ve xeN dir. Programlama dilleri genellikle bu tür gramerlerden üretilir. Bu tür diller her zaman tanınabilir.
 
-4. Sonlu (veya düzgün) gramerler:
-Üretimler x->a veya x->ay şeklindedir. Burada x,y∈N ve a∈T dir.Bu tür gramerler,dilin kelimelerini tanımlamak için kullanılır, yani kelime analizi sırasında tanınan bir gramerdir. Sonlu gramerler, sonlu durum makineleriyle çok etkin şekilde tanınır.
+4. Sonlu (veya düzenli) gramerler:
+Üretimler x->a veya x->ay şeklindedir. Burada x,y∈N ve a∈T dir. Bu tür gramerler, dilin kelimelerini tanımlamak için kullanılır, yani kelime analizi sırasında ayrıştırılan bir gramerdir. Sonlu gramerler, sonlu durum makineleriyle çok etkin şekilde ayrıştırılabilir.
 
-Kelime ve sözdizimi analizinin ayrı ayrı yapılmasının nedeni de, tanınan dillerin farklı gramer sınıflarından olmasıdır. Kelime analizi çok daha etkin algoritmalarla yapılır.
+Kelime ve sözdizimi analizinin ayrı ayrı yapılmasının nedeni de, ayrıştırılan dillerin farklı gramer sınıflarından olmasıdır. Kelime analizi çok daha etkin algoritmalarla yapılır.
 
 ## 4. Gramerlerin Denkliği, Belirsizliği:
-L(G) ve L(H) kümeleri birbirine eşitse, G ve H gramerlerine denk gramerler denir. Üretimler farklı sıralarda uygulanıp aynı bir cümle farklı şekilde türetilebiliyorsa bu gramere belirsiz (ambiguous) gramer denir. Parser'ın bu tür belirsiz bir grameri tek şekilde tanıması sağlanmalıdır, aksi halde alınacak sonuçlar her seferinde değişik olacaktır. Örneğin şu gramerde:
+L(G) ve L(H) kümeleri birbirine eşitse, G ve H gramerlerine denk gramerler denir. Üretimler farklı sıralarda uygulanıp aynı bir cümle farklı şekilde türetilebiliyorsa bu gramere belirsiz (ambiguous) gramer denir. Ayrıştırıcı (parser)'ın bu tür belirsiz bir grameri tek şekilde tanıması sağlanmalıdır, aksi halde alınacak sonuçlar her seferinde değişik olacaktır. Örneğin şu gramerde:
 
 s -> aa
 a -> x | xx
