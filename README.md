@@ -17,8 +17,9 @@
 - [13. Değişkenlerin depolanışı ve Fonksiyonların bağlantısı](#13-değişkenlerin-depolanışı-ve-fonksiyonların-bağlantısı)
 - [14. Sembol tablosu](#14-sembol-tablosu)
 - [15. Genel olarak P-kodlar](#15-genel-olarak-p-kodlar)
-- [16](#16-)
-
+- [16. P-kod detayları](#16-p-kod-detayları)
+- [17. Temel Pascal yapıları için kod şablonları](#17-temel-pascal-yapıları-için-kod-şablonları)
+- [18. Derleyicide kullanılan veri yapıları](#18-derleyicide-kullanılan-veri-yapıları)
 
 ## 1. Derleyicinin bileşenleri:
 Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
@@ -540,7 +541,7 @@ i=funca(expr1,expr2);	       INT 1
                                INT -2
 ```
 
-## Derleyicide kullanılan veri yapıları:
+## 18. Derleyicide kullanılan veri yapıları:
 - Bağlı listeler, dinamik diziler oluşturmak için kullanılır. 
 - Listeyi oluşturacak her bir hucre için tek tek C'deki malloc() fonksiyonu ile dinamik bellek ayırılmalı ve bir sonraki hücreyle bağlantısı kurulmalıdır.
 
