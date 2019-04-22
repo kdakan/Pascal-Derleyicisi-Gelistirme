@@ -20,6 +20,7 @@
 - [16. P-kod detayları](#16-p-kod-detayları)
 - [17. Temel Pascal yapıları için kod şablonları](#17-temel-pascal-yapıları-için-kod-şablonları)
 - [18. Derleyicide kullanılan veri yapıları](#18-derleyicide-kullanılan-veri-yapıları)
+- [19. Derleyicide kullanılan tipler ve fonksiyonlar](#19-derleyicide-kullanılan-tipler-ve-fonsiyonlar)
 
 ## 1. Derleyicinin bileşenleri:
 Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
@@ -577,7 +578,7 @@ Dinamik Stack :
 pointer da stack'in üstünü östermiş olur. Böylece büyüklüğü dinamik
 olarak değişen bir stack yapısı elde edilir.
 
-## 19. Derleyicide kullanılan bazı veri yapıları ve fonksiyonlar:
+## 19. Derleyicide kullanılan tipler ve fonksiyonlar:
 
 - `symblocktop`: Sembol tablosundaki (stack'teki) en üst elemanı gösteren pointer'dır.
 - `pushsymblock()`: Sembol stack'ine yeni sembol bloku yükler. (stack'i 1 blok büyültür)
