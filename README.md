@@ -2,16 +2,16 @@
 
 1997 senesinde İTÜ Matematik Mühendisliği son sınıftayken yapmış olduğum bitirme tezim "Pascal derleyicisi geliştirme" ile ilgili elimde kalan pek birşey yok. O tarihte 10-15 bin satır C kodu yazmış olduğumu hatırlıyorum, 3 ay full-time uğraşmıştım. O tarihdeki floppy disket de 2000 lerin başlarında ölmüştü. Ancak 1998'de fortunecity.com da bu derleyiciyi tanıttığım bir giriş yazım vardı, o yazının kopyasını da https://web.archive.org adresinden bulabildim. Burada derlemiş olduğum bilgileri tekrar formatlayıp github'a koydum. O dönem kullandığım teknikleri gayet açık anlatmışım. Şimdi sıfırdan geliştirecek olsam da aynı teknikleri kullanırdım, ancak yacc/lex/c yerine muhtemelen antlr/c# ile geliştirirdim.
 
-- [ 1. Derleyicinin bileşenleri](#1-derleyicinin-bileşenleri)
+- [ 1. Derleyici bileşenleri](#1-derleyici-bileşenleri)
 - [ 2. Gramer, Üretim, Alfabe, Dil](#2-gramer-üretim-alfabe-dil)
 - [ 3. Gramerlerin Sınıflandırılması](#3-gramerlerin-sınıflandırılması)
 - [ 4. Gramerlerin Denkliği, Belirsizliği](#4-gramerlerin-denkliği-belirsizliği)
-- [ 5. Özellikler (attributes) ve Genişletilmiş Gramer](#5-özellikler-attributes-ve-genişletilmiş-gramer)
-- [ 6. Lex ve YACC kullanımı](#6-lex-ve-YACC-kullanımı)
-- [ 7. Lex'in kabul ettiği (.l uzantılı) dosya yapısı](#7-lexin-kabul-ettiği-l-uzantılı-dosya-yapısı)
+- [ 5. Nitelikler (attributes) ve Genişletilmiş Gramer](#5-nitelikler-attributes-ve-genişletilmiş-gramer)
+- [ 6. Lex ve YACC kullanımı](#6-lex-ve-yacc-kullanımı)
+- [ 7. Lex dosya yapısı](#7-lex-dosya-yapısı)
 - [ 8. Lex düzgün-ifadeleri ve operatörler](#8-lex-düzgün-ifadeleri-ve-operatörler)
 - [ 9. Lex tanımları](#9-lex-tanımları)
-- [10. YACC'nin kabul ettiği (.y uzantılı) dosya yapısı](#10-yaccnin-kabul-ettiği-y-uzantılı-dosya-yapısı)
+- [10. YACC dosya yapısı](#10-yacc-dosya-yapısı)
 - [11. YACC Tanımları](#11-yacc-tanımları)
 - [12. Ağaç Türetim Örneği](#12-ağaç-türetim-örneği)
 - [13. Değişkenlerin depolanışı ve Fonksiyonların bağlantısı](#13-değişkenlerin-depolanışı-ve-fonksiyonların-bağlantısı)
@@ -48,8 +48,8 @@ Bir dilin grameri (G), aşağıda gösterilen sade örnekteki gibi:
 
 - Burada | sembolü veya anlamındadır. Okun sol tarafındaki sembollerden sağ taraftaki sembollerin türetileceğini anlatan bu kuralların herbirine üretim denir. Üretim kurallarının kümesi P ile gösterilir. 
 - Bir gramerin üretimlerinin hiçbirinde sol tarafta yer almamış olan sembollere uç (terminal) semboller denir. Yukarıdaki örnekte bunlar Ben, isim, kitabı, eve, gittim ve aldı sembolleridir. 
-- Uç sembollerin kümesi T ile gösterilir. Örneğin, "Mehmet kitabı aldı" cümlesi tarayıcı tarafından parser'a isim(Mehmet), kitabı,aldı şeklinde iletilir. Parantez içindeki Mehmet, isim uç sembolünün taşıdığı özelliktir. 
-- Uç sembollerle birlikte parser'a iletilen bu özellikler, parser tarafından üretimler uygulanırken işlenir. 
+- Uç sembollerin kümesi T ile gösterilir. Örneğin, "Mehmet kitabı aldı" cümlesi tarayıcı tarafından parser'a isim(Mehmet), kitabı,aldı şeklinde iletilir. Parantez içindeki Mehmet, isim uç sembolünün taşıdığı niteliktir. 
+- Uç sembollerle birlikte parser'a iletilen bu nitelikler, parser tarafından üretimler uygulanırken işlenir. 
 - Bu örnekte parser, ileride kullanmak için Mehmet'in isim olduğu bilgisini sembol tablosuna kaydeder. Daha sonra üretimleri sembollere uygulayarak cümle sembolünü elde eder. 
 - Uç semboller dışındaki sembollere ara (non-terminal) semboller denir. Bu örnekte bunlar cümle, özne, nesne ve yüklem'dir. Ara sembollerin kümesi N ile gösterilir. 
 - Bütün sembolleri kendisinden türeten özel ara sembole cümlesel sembol denir ve S ile gösterilir. Bu örnekte cümlesel sembol cümle'dir. 
@@ -152,17 +152,17 @@ a -> x | xx
 
 Bunlardan birisi parser tarafından tercih edilmelidir.
 
-## 5. Özellikler (attributes) ve Genişletilmiş Gramer:
-Her sembolün taşıdığı kendisine ait özellikleri bulunur. Üretimlerin yanında bu özelliklerle ilgili işlemler konarak elde edilen gramere genişletilmiş gramer denir. Sol taraftaki sembolün özelliği, sağda yeralan sembollerin özellikleri işlenerek oluşuyorsa, yani bunların bir fonksiyonuysa:
+## 5. Nitelikler (attributes) ve Genişletilmiş Gramer:
+Her sembolün taşıdığı kendisine ait nitelikleri bulunur. Üretimlerin yanında bu niteliklerle ilgili işlemler konarak elde edilen gramere genişletilmiş gramer denir. Sol taraftaki sembolün niteliği, sağda yeralan sembollerin nitelikleri işlenerek oluşuyorsa, yani bunların bir fonksiyonuysa:
 
 x -> y1 y2 y3 ... yn ve x.a = f(y1.a, y2.a, y3.a,...,yn.a) ise
 
-(burada x.a ile x'in taşıdığı a özelliği gösteriliyor), bu özelliklere sentezlenmiş özellikler (synthesized attributes) denir.
+(burada x.a ile x'in taşıdığı a niteliği gösteriliyor), bu niteliklere sentezlenmiş nitelikler (synthesized attributes) denir.
 
 ## 6. Lex ve YACC kullanımı:
 UNIX sisteminde mevcut olan Lex ve YACC programları, derleyici oluşturmada çok büyük kolaylıklar sağlar. Lex programı, verilen bir sonlu grameri kabul eden, yani tanıyan tarayıcı üretir. YACC de benzer şekilde, verilen genişletilmiş bir LALR grameri kabul eden ve üretimler sırasında, bunların yanında verilmiş olan sıfatlarla ilgili işlemleri yapan bir parser üretir. İki programın çıktısı da, yani oluşturdukları tarayıcı ve parser programlar C dili ile yazılmıştır.
 
-## 7. Lex'in kabul ettiği (.l uzantılı) dosya yapısı:
+## 7. Lex dosya yapısı:
 ```
 %{ 
 C ifadeleri (seçimlik)
@@ -205,9 +205,9 @@ tamsayı [0-9]+
 tamsayı          {sscanf(yytext, "%d", &yylval.ival); return TAMS;}
 tamsayı\.tamsayı {sscanf(yytext, "%f", &yylval.fval); return REELS;}
 ```
-Örnekte görüldüğü gibi işlemler `{ }` içinde yeralan C ifadeleridir. `yytext` değişkeni karakter dizisi olup, tanınan kelimenin (örnekte 15, 6349 gibi bir tamsayı veya 0.359, 1368.4 gibi bir reel sayı) saklandığı alandır. Lex tarafından oluşturulan ve parser tarafından çağırılan `yylex()` tarayıcı fonksiyonu tanıdığı tokeni dönerek parser'a iletir. Bunun dışında tokenin özelliğini de `yylval` global değişkeni ile iletir. `{ }` içindeki ifadeler, C bloku içinde yeraldığından, burada lokal C değişkeni tanımlamak da mümkündür. `yylval` değişkeninin tipi, YACC'nin oluşturduğu parser içinde tanımlanmıştır.
+Örnekte görüldüğü gibi işlemler `{ }` içinde yeralan C ifadeleridir. `yytext` değişkeni karakter dizisi olup, tanınan kelimenin (örnekte 15, 6349 gibi bir tamsayı veya 0.359, 1368.4 gibi bir reel sayı) saklandığı alandır. Lex tarafından oluşturulan ve parser tarafından çağırılan `yylex()` tarayıcı fonksiyonu tanıdığı tokeni dönerek parser'a iletir. Bunun dışında tokenin niteliğini de `yylval` global değişkeni ile iletir. `{ }` içindeki ifadeler, C bloku içinde yeraldığından, burada lokal C değişkeni tanımlamak da mümkündür. `yylval` değişkeninin tipi, YACC'nin oluşturduğu parser içinde tanımlanmıştır.
 
-## 10. YACC'nin kabul ettiği (.y uzantılı) dosya yapısı:
+## 10. YACC dosya yapısı:
 ```
 %{ -I
 C ifadeleri I-> seçimlik
@@ -224,9 +224,9 @@ C ifadeleri (kullanıcı fonksiyonları ve main() fonksiyonu)
 
 `%token`: uç semboller,` %token sembol` şeklinde tanımlanmalıdır. Eğer `%union{ }` kullanıldıysa, tokenin tipi, `union` içinde o tipteki sahanın adı t olmak üzere `%token <t>` sembol şeklinde belirtilmelidir.
 
-`%left`, `%right`: işlemin sola veya sağa birleşim özelliği varsa `%left işlem` veya `%right işlem` şeklinde belirtilir. Bunlar, gramerdeki belirsizliği gidermek için kullanılır.
+`%left`, `%right`: işlemin sola veya sağa birleşim niteliği varsa `%left işlem` veya `%right işlem` şeklinde belirtilir. Bunlar, gramerdeki belirsizliği gidermek için kullanılır.
 
-`%nonassoc`: işlemin sağa veya sola birleşme özelliği olmadığını belirtir.
+`%nonassoc`: işlemin sağa veya sola birleşme niteliği olmadığını belirtir.
 
 `%type`: uç semboller için `%union{ }` kullanıldıysa yapılan tip tanımının ara semboller için benzeridir.
 
@@ -342,7 +342,7 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
 - Üretim kurallarının yanında yeralan işlemler, { } içerisinde C ifadeleridir (C bloku). Burada $n şeklindeki hayali değişkenler, sembollerin sıfatlarına karşılık gelirler. Soldaki ara sembolün sıfatı $0 veya $$ ile, sağdaki k.ıncı sembolün sıfatı da $k ile gösterilir. { } içerisinde, diğer işlemlerin yanısıra $1,$2,...,$n işlenerek elde edilen sonuç $$'a atanır. 
 - Bu değerler, aslında parser'ın kullandığı stack üzerinde sembollerle birlikte tutularak yukarı doğru işlenerek yolalır, yoksa gerçekte ağaç veri yapısı kullanılmaz. 
 - En üst kuralın solundaki sembol, ya da %start ile tanımlanmış başka bir sembol, cümlesel semboldür. Tüm semboller, uç sembollerden başlamak üzere, sağ tarafında yeraldıkları kuralın solundaki ara sembole, aşağıdan yukarı doğru türetilirler. 
-- Bu aşamalarda taşınan özellikler kullanılarak ve işlenerek yukarı aşamalara geçirilerek, sonunda cümlesel sembole ulaşıldığında derlenme süreci biter. 
+- Bu aşamalarda taşınan nitelikler kullanılarak ve işlenerek yukarı aşamalara geçirilerek, sonunda cümlesel sembole ulaşıldığında derlenme süreci biter. 
 - Özel bir ara sembol olan error sembolü, derlenen programda karşılaşılan sözdizimi hatasının, sanki olmamış gibi error sembolüne türetilmesi ve hatalı kısmın atlanarak derlenmeye devam edilmesi için kullanılır.
 
 ## 13. Değişkenlerin depolanışı ve Fonksiyonların bağlantısı:
