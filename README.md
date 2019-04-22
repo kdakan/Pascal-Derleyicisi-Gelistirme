@@ -2,7 +2,12 @@
 
 1997 senesinde İTÜ Matematik Mühendisliği için yapmış olduğum bitirme tezim "Pascal derleyicisi geliştirilmesi" ile ilgili elimde kalan pek birşey yok. O tarihte 15000 satır C kodu yazmış olduğumu hatırlıyorum, 3 ay full time bunun için uğraşmıştım. O tarihdeki floppy disket de  2000 lerin başlarında ölmüştü. Ancak 1998'de fortunecity.com da bu derleyiciyi tanıttığım bir giriş yazım vardı, o yazının kopyasını da https://web.archive.org/web/20120308052921/http://members.fortunecity.com/kdakan/ adresinden bulabildim. Bu sitedeki arşiv görüntüsü okunaklı değil, sadece metin ve tablolar okunabiliyor, resimler arşivlenmemiş. Elimdeki bu son kırıntı bilgiyi sizler için tekrar formatlayıp github'a koymayı uygun gördüm, orjinal metin üzerinde hiçbir değişiklik yapmadım. O dönemde kullandığım teknikleri burada gayet açık anlatmışım. Şimdi sıfırdan yazacak olsam da aynı teknikleri kullanırdım, ancak yacc/lex/c yerine muhtemelen antlr/c# ile yazardım.
 
-## Derleyicinin bileşenleri:
+[ 1. Derleyicinin bileşenleri](#1-derleyicinin-bileşenleri)
+[ 2. Gramer, Üretim, Alfabe, Dil](#2-gramer-üretim-alfabe-dil)
+[ 3. Tanımlar](#3-tanımlar)
+
+
+## 1. Derleyicinin bileşenleri:
 Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
 
 1. Tarayıcı (kelime analizi yapar, kelime tablosunu üretir)
@@ -17,7 +22,7 @@ Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
 - Optimizasyonun daha etkin yapılabilmesi için ve değişik makineler için kod üretilebilmesi için, bu işler için daha uygun ve daha genel bir arakod üretilip, daha sonra bu arakod optimize edilip istenen makine için kod üretilebilir. 
 - Bazı derleyiciler ise sanal bir makine için hızlı yorumlanabilen bir kod üretir ve bu kodu yorumlayarak programı değişik makinelerde çalıştırır.
 
-## Gramer, Üretim, Alfabe,Dil: 
+## 2. Gramer, Üretim, Alfabe, Dil: 
 Bir dilin grameri (G), aşağıda gösterilen sade örnekteki gibi:
 
 - cümle -> özne nesne yüklem
@@ -28,7 +33,7 @@ Bir dilin grameri (G), aşağıda gösterilen sade örnekteki gibi:
 şablon üretim kurallarıyla belirlenir. 
 
 
-### Tanımlar:
+### 3. Tanımlar:
 - Burada | sembolü veya anlamındadır. Okun sol tarafındaki sembollerden sağ taraftaki sembollerin türetileceğini anlatan bu kuralların herbirine üretim denir. Üretim kurallarının kümesi P ile gösterilir. 
 - Bir gramerin üretimlerinin hiçbirinde sol tarafta yer almamış olan sembollere uç (terminal) semboller denir. Yukarıdaki örnekte bunlar Ben, isim, kitabı, eve, gittim ve aldı sembolleridir. 
 - Uç sembollerin kümesi T ile gösterilir. Örneğin, "Mehmet kitabı aldı" cümlesi tarayıcı tarafından parser'a isim(Mehmet), kitabı,aldı şeklinde iletilir. Parantez içindeki Mehmet, isim uç sembolünün taşıdığı özelliktir. 
