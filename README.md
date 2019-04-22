@@ -577,7 +577,7 @@ Dinamik Stack :
 pointer da stack'in üstünü östermiş olur. Böylece büyüklüğü dinamik
 olarak değişen bir stack yapısı elde edilir.
 
-Derleyicide kullanılan bazı değişken ve fonksiyonlar:
+## 19. Derleyicide kullanılan bazı veri yapıları ve fonksiyonlar:
 
 - `symblocktop`: Sembol tablosundaki (stack'teki) en üst elemanı gösteren pointer'dır.
 - `pushsymblock()`: Sembol stack'ine yeni sembol bloku yükler. (stack'i 1 blok büyültür)
@@ -641,7 +641,7 @@ Burada metatype `TENUM`, `TID`, `TREC`, `TUNION`, `TARR`, `TFILE`, `TSET` ve `TR
     </tr>
     <tr>
         <td></td>
-        <td>(bağlı liste, her bir fields da,aynı tipten sahaların oluşturduğu bir bağlı liste ve tip çiftidir)</td>
+        <td>(bağlı liste, her bir fields da, aynı tipten sahaların oluşturduğu bir bağlı liste ve tip çiftidir)</td>
     </tr>
     <tr>
         <td>Örnek:</td>
@@ -651,28 +651,38 @@ i1,i2: INTEGER; fields2->(i1->i2,INTEGER)
 END;</td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
+        <td>TPTR</td>
+        <td>-->tip (pointerın gösterdiği tip)</td>
+    </tr>
+    <tr>
+        <td>Örnek:</td>
+        <td>VAR p: ^ tip</td>
+    </tr>
+    <tr>
+        <td>TFILE</td>
+        <td>-->tip</td>
+    </tr>
+    <tr>
+        <td>Örnek:</td>
+        <td>VAR f: FILE OF CHAR; (tip=CHAR)</td>
+    </tr>
+    <tr>
+        <td>TSET</td>
+        <td>-->kümetipi</td>
+    </tr>
+    <tr>
+        <td>Örnek:</td>
+        <td>VAR s: SET OF INTEGER;</td>
     </tr>
 </table>
 
-  
- 
 
-TPTR -->tip (pointerın gösterdiği tip)
-Örnek: VAR p: ^ tip
+`instproc()`, `instfunc()`: Sembol tablosunun üstündeki bloka prosedür ve fonksiyon ekler.
 
-TFILE -->tip Örnek: VAR f: FILE OF CHAR; (tip=CHAR)
+`addXnode()`: X'lerden oluşan bağlı listeye yeni hücre ekler.
+Bu tür fonksiyonlar: `addidnode()`, `addtypenode()`, `addfieldsnode()`, `addfparsec()`, `addexprnode()`, `addclinenode()`, `addconstnode()`, `addvarnode()`
 
-TSET -->kümetipi Örnek: VAR s: SET OF INTEGER;
--------------------------------------------------------------------
+`inkNcodes()`: P-kodlardan oluşan N adet bağlı listeyi birleştirip, tek bir bağlı liste haline getirir.
 
-instproc(),instfunc(): Sembol tablosunun üstündeki bloka prosedür ve fonksiyon ekler.
-
-addXnode(): X'lerden oluşan bağlı listeye yeni hücre ekler.
-Bu tür fonksiyonlar: addidnode(), addtypenode(), addfieldsnode(),addfparsec(), addexprnode(), addclinenode(),addconstnode(), addvarnode()
-
-linkNcodes(): P-kodlardan oluşan N adet bağlı listeyi birleştirip, tek bir bağlı liste haline getirir.
-
-codeXXX(): XXX P-kodunu üretir. Üretilen kod aslında veri kısmı P-kod olan tek elemanlı bir bağlı listedir. Kod üretimi sırasında değişik zamanlarda üretilen kod parçaları (bağlı listeler), linkNcodes() ile farklı aşamalarda birleştirilir ve en sonunda tek parça haline getirilir bu bağlı listenin adresi program isimli değişkene atanır.
+`codeXXX()`: XXX P-kodunu üretir. Üretilen kod aslında veri kısmı P-kod olan tek elemanlı bir bağlı listedir. Kod üretimi sırasında değişik zamanlarda üretilen kod parçaları (bağlı listeler), `linkNcodes()` ile farklı aşamalarda birleştirilir ve en sonunda tek parça haline getirilir bu bağlı listenin adresi program isimli değişkene atanır.
 ```
