@@ -20,7 +20,7 @@
 - [16. P-kod detayları](#16-p-kod-detayları)
 - [17. Temel Pascal yapıları için kod şablonları](#17-temel-pascal-yapıları-için-kod-şablonları)
 - [18. Derleyicide kullanılan veri yapıları](#18-derleyicide-kullanılan-veri-yapıları)
-- [19. Derleyicide kullanılan tipler ve fonksiyonlar](#19-derleyicide-kullanılan-tipler-ve-fonsiyonlar)
+- [19. Derleyicide kullanılan tipler ve fonksiyonlar](#19-derleyicide-kullanılan-tipler-ve-fonksiyonlar)
 
 ## 1. Derleyicinin bileşenleri:
 Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
