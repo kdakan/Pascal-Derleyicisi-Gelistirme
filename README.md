@@ -505,10 +505,10 @@ while expr do stmt             1b1: (expr)
                                1b2: ...
  	 
 case expr of	               (expr)
-c1b1,c1b2: stmt1;	           OPR CPY
+c1b1,c1b2: stmt1;              OPR CPY
 c1b3 : stmt2;	               LIT c1b1
 else stmt3 end;	               OPR =
- 	                           JPC 1,1b1
+                               JPC 1,1b1
                                OPR CPY
                                LIT c1b2
                                OPR =
@@ -550,11 +550,10 @@ l->d
 Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler de bir sonraki hücreyi gösteren pointer'lardır. İlk hücrenin adresi l'de tutulur. En son hücrede s'nin değeri NULL, yani 0'dir.
 C dilinde şu şekilde tanımlanır:
 ```
-struct snode
-    {
+struct snode {
     int d;
-    struct snode *s;    /* sonraki */
-    } *l;
+    struct snode *s; /* sonraki */
+} *l;
 ```
 - Çift bağlı liste:
 ```
@@ -568,12 +567,11 @@ l->d<-ö
 Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler bir sonraki hücreyi gosteren, ö'ler ise bir önceki hücreyi gösteren pointer'lardır. İlk hücrenin adresi l'de,istenirse son hücrenin adresi son'da tutulur.En baş hücrede ö'nün değeri, en son hücrede s'nin değerleri NULL, yani 0'dir. 
 C dilinde şu şekilde tanımlanır:
 ```
-struct snode
-    {
+struct snode {
     int d;
-struct snode *ö; /* önceki */
-    struct snode *s;    /* sonraki */
-    } *l, *son;
+    struct snode *ö; /* önceki */
+    struct snode *s; /* sonraki */
+} *l, *son;
 ```
 Dinamik Stack :
 
@@ -593,16 +591,14 @@ makesettype(), makefiletype(): Çeşitli tip hücreleri oluşturur. Değişkenle
 ```
 Tip hücresi şöyle tanımlıdır:
 ```
-struct     stype
-           {
-           char typetype; /* TENUM, TID, TREC, TUNION, */
-                          /* TFILE, TSET, TRANGE, TARR */
-           void *restptr; 
-           };
+struct stype {
+    char metatype; /* TENUM, TID, TREC, TUNION, TFILE, TSET, TRANGE, TARR */
+    void *restptr; 
+};
 ```
-Burada typetype `TENUM`, `TID`, `TREC`, `TUNION`, `TARR`, `TFILE`, `TSET` ve `TRANGE` sabitlerinden birini tutar. restptr, her tip için farklı türden bilgileri içeren bir yapıyı gösterir. Bu yapılar şöyledir:
+Burada metatype `TENUM`, `TID`, `TREC`, `TUNION`, `TARR`, `TFILE`, `TSET` ve `TRANGE` sabitlerinden birini tutar. restptr, her tip için farklı türden bilgileri içeren bir yapıyı gösterir. Bu yapılar şöyledir:
 ```
-typetype restptr
+metatype restptr
 -------------------------------------------------------------------
 TENUM -->id0-->id1-->...-->idN (bağlı liste, id'ler strig olup, ayrıca sembol tablosuna 0'dan N'ye kadar sabitler olarak kaydedilir)
 
