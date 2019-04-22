@@ -415,46 +415,46 @@ Not: opkod onaltılık sayı düzenindedir.
 
 ## 16. P-kod detayları:
 ```
-p-kod	    yaptığı iş	 
-LIT 0,N	    N sabitini stack'e yükle	PUSH N
-OPR 0,0	    prosedür veya fonksiyondan geri dön	 
-OPR 0,1	    negatifini al	POP A, PUSH (-A)
-OPR 0,2	    toplamını al	POP A, POP B, PUSH (B+A)
-OPR 0,3	    farkını al	POP A, POP B, PUSH (B-A)
-OPR 0,4	    çarpımını al	POP A, POP B, PUSH (B*A)
-OPR 0,5	    bölümünü al	POP A, POP B, PUSH (B/A)
-OPR 0,6	    alt bitini al	POP A, PUSH (A AND 1)
-OPR 0,7	    kalanını al	POP A, POP B, PUSH (B MOD A)
-OPR 0,8	    eşit mi	POP A, POP B, PUSH (B =? A)
-OPR 0,9	    farklı mı	POP A, POP B, PUSH (B <>? A)
-OPR 0,10    küçük mü	POP A, POP B, PUSH (B <? A)
-OPR 0,11    büyük eşit mi	POP A, POP B, PUSH (B >=? A)
-OPR 0,12    büyük mü	POP A, POP B, PUSH (B >? A)
-OPR 0,13    küçük eşit mi	POP A, POP B, PUSH (B <=? A)
-OPR 0,14    veya	POP A, POP B, PUSH (B OR A)
-OPR 0,15    ve	POP A, POP B, PUSH (B AND A)
-OPR 0,16    değil	POP A, PUSH (NOT A)
-OPR 0,17    sola shift	POP A, POP B, PUSH (B sola shift (A kere))
-OPR 0,18    sağa shift	POP A, POP B, PUSH (B sağa shift (A kere))
-OPR 0,19    arttır	POP A, PUSH (A+1)
-OPR 0,20    eksilt	POP A, PUSH (A-1)
-OPR 0,21    kopyala	POP A, PUSH A, PUSH A
-LOD L,D	    adresten yükle	A'yi (L,D)'den yükle, PUSH A
-LOD 255,0   stack üzerindeki adresten yükle	POP A, POP adres, A'nin alt byte'ini adrese yükle
-LODX L,D    indexli yükle	POP index, A'yi (L,D)+index'ten yükle, PUSH A
-STO L,D	    stack üzerinden adrese yükle	POP A, A'yi (L,D)'ye yükle
-STO 255,0   stack üzerinden stack'teki adrese yükle	POP A, POP adres, A'nin alt byte'ini adrese yükle
-STOX L,D    indexli yükle	POP index, POP A, A'yi (L,D)+index'e yükle
-CAL L,A	    çağır	(L,A)'yı çağır
-CAL 255,0   stack'teki adresi çağır	POP adres, PUSH dönüş adresi (=pc), adrese dallan
-INT 0,N	    T ye N ekle	T=T+N
-JMP 0,A	    dallan	(0,A)'ya dallan
-JPC 0,A	    doğruysa dallan	POP A, eğer (A and 1) = 0 ise (0,A)'ya dallan
-CSP 0,0	    karakter girişi	INPUT A, PUSH A
-CSP 0,1	    karakter çıkışı	POP A, OUTPUT A
-CSP 0,2	    tamsayı girişi	INPUT A#, PUSH A
-CSP 0,3	    tamsayı çıkışı	POP A, OUTPUT A#
-CSP 0,8	    string çıkışı	POP A, FOR I := 1 to A DO BEGIN POP B, OUTPUT B, END
+p-kod	    yaptığı iş	                              psüdokod
+LIT 0,N	    N sabitini stack'e yükle                  PUSH N
+OPR 0,0	    prosedür veya fonksiyondan geri dön       RETURN
+OPR 0,1	    negatifini al                             POP A, PUSH (-A)
+OPR 0,2	    toplamını al                              POP A, POP B, PUSH (B+A)
+OPR 0,3	    farkını al                                POP A, POP B, PUSH (B-A)
+OPR 0,4	    çarpımını al                              POP A, POP B, PUSH (B*A)
+OPR 0,5	    bölümünü al                               POP A, POP B, PUSH (B/A)
+OPR 0,6	    alt bitini al                             POP A, PUSH (A AND 1)
+OPR 0,7	    kalanını al                               POP A, POP B, PUSH (B MOD A)
+OPR 0,8	    eşit mi                                   POP A, POP B, PUSH (B =? A)
+OPR 0,9	    farklı mı                                 POP A, POP B, PUSH (B <>? A)
+OPR 0,10    küçük mü                                  POP A, POP B, PUSH (B <? A)
+OPR 0,11    büyük eşit mi                             POP A, POP B, PUSH (B >=? A)
+OPR 0,12    büyük mü                                  POP A, POP B, PUSH (B >? A)
+OPR 0,13    küçük eşit mi                             POP A, POP B, PUSH (B <=? A)
+OPR 0,14    veya                                      POP A, POP B, PUSH (B OR A)
+OPR 0,15    ve                                        POP A, POP B, PUSH (B AND A)
+OPR 0,16    değil                                     POP A, PUSH (NOT A)
+OPR 0,17    sola shift                                POP A, POP B, PUSH (B sola shift (A kere))
+OPR 0,18    sağa shift                                POP A, POP B, PUSH (B sağa shift (A kere))
+OPR 0,19    arttır                                    POP A, PUSH (A+1)
+OPR 0,20    eksilt                                    POP A, PUSH (A-1)
+OPR 0,21    kopyala                                   POP A, PUSH A, PUSH A
+LOD L,D	    adresten yükle                            A'yi (L,D)'den yükle, PUSH A
+LOD 255,0   stack üzerindeki adresten yükle           POP A, POP adres, A'nin alt byte'ini adrese yükle
+LODX L,D    indexli yükle                             POP index, A'yi (L,D)+index'ten yükle, PUSH A
+STO L,D	    stack üzerinden adrese yükle              POP A, A'yi (L,D)'ye yükle
+STO 255,0   stack üzerinden stack'teki adrese yükle   POP A, POP adres, A'nin alt byte'ini adrese yükle
+STOX L,D    indexli yükle                             POP index, POP A, A'yi (L,D)+index'e yükle
+CAL L,A	    çağır                                     (L,A)'yı çağır
+CAL 255,0   stack'teki adresi çağır                   POP adres, PUSH dönüş adresi (=pc), adrese dallan
+INT 0,N	    T ye N ekle                               T=T+N
+JMP 0,A	    dallan                                    (0,A)'ya dallan
+JPC 0,A	    doğruysa dallan                           POP A, eğer (A and 1) = 0 ise (0,A)'ya dallan
+CSP 0,0	    karakter girişi                           INPUT A, PUSH A
+CSP 0,1	    karakter çıkışı                           POP A, OUTPUT A
+CSP 0,2	    tamsayı girişi                            INPUT A#, PUSH A
+CSP 0,3	    tamsayı çıkışı                            POP A, OUTPUT A#
+CSP 0,8	    string çıkışı                             POP A, FOR I := 1 to A DO BEGIN POP B, OUTPUT B, END
 ```
 Not: doğru=1, yanlış=0
 
