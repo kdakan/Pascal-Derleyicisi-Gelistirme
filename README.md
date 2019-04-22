@@ -39,12 +39,12 @@ Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
 
 ## 2. Gramer, Üretim, Alfabe, Dil: 
 Bir dilin grameri (G), aşağıda gösterilen sade örnekteki gibi:
-
-- cümle -> özne nesne yüklem
-- özne -> Ben | isim
-- nesne -> kitabı | eve
-- yüklem -> gittim | aldı
-
+```
+cümle -> özne nesne yüklem
+özne -> Ben | isim
+nesne -> kitabı | eve
+yüklem -> gittim | aldı
+```
 şablon üretim kurallarıyla belirlenir. 
 
 - Burada | sembolü veya anlamındadır. Okun sol tarafındaki sembollerden sağ taraftaki sembollerin türetileceğini anlatan bu kuralların herbirine üretim denir. Üretim kurallarının kümesi P ile gösterilir. 
@@ -79,10 +79,10 @@ Kelime ve sözdizimi analizinin ayrı ayrı yapılmasının nedeni de, ayrışt�
 
 ## 4. Gramerlerin Denkliği, Belirsizliği:
 L(G) ve L(H) kümeleri birbirine eşitse, G ve H gramerlerine denk gramerler denir. Üretimler farklı sıralarda uygulanıp aynı bir cümle farklı şekilde türetilebiliyorsa bu gramere belirsiz (ambiguous) gramer denir. Ayrıştırıcı (parser)'ın bu tür belirsiz bir grameri tek şekilde tanıması sağlanmalıdır, aksi halde alınacak sonuçlar her seferinde değişik olacaktır. Örneğin şu gramerde:
-
+```
 s -> aa
 a -> x | xx
-
+```
 "xxx" cümlesi iki farklı sırada tanınabilir:
 
 <table>
