@@ -6,7 +6,7 @@
 - [ 2. Gramer, Üretim, Alfabe, Dil](#2-gramer-üretim-alfabe-dil)
 - [ 3. Gramerlerin Sınıflandırılması](#3-gramerlerin-sınıflandırılması)
 - [ 4. Gramerlerin Denkliği, Belirsizliği](#4-gramerlerin-denkliği-belirsizliği)
-- [ 5. Özellikler (attributes) ve Genişletilmiş Gramer(#5-özellikler-attributes-ve-genişletilmiş-gramer)
+- [ 5. Özellikler (attributes) ve Genişletilmiş Gramer](#5-özellikler-attributes-ve-genişletilmiş-gramer)
 - [ 6. Lex ve YACC kullanımı](#6-lex-ve-YACC-kullanımı)
 - [ 7. Lex'in kabul ettiği (.l uzantılı) dosya yapısı](#7-lexin-kabul-ettiği-l-uzantılı-dosya-yapısı)
 - [ 8. Lex düzgün-ifadeleri ve operatörler](#8-lex-düzgün-ifadeleri-ve-operatörler)
@@ -243,20 +243,18 @@ C ifadeleri (kullanıcı fonksiyonları ve main() fonksiyonu)
 %right   '^'
 %left EKSİ
 %%
-ifade    : ifade '+' ifade      {$$=$1+$3;}
+ifade    : ifade '+' ifade       {$$=$1+$3;}
          | ifade '-' ifade       {$$=$1-$3;}
          | ifade '*' ifade       {$$=$1*$3;}
          | ifade '/' ifade       {$$=$1/$3;}
          | ifade '^' ifade       {$$=power($1,$3);}
-         | '-' ifade %prec EKSİ {$$=-$2;}
+         | '-' ifade %prec EKSİ  {$$=-$2;}
          | TAMSAYI               {$$=$1;}
          ;
 %%
 ...
 ```
 gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetilir:
-
-
 
 <table>
     <tbody><tr>
@@ -278,7 +276,6 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
         <td align="center"></td>
         <td align="left">\</td>
         <td align="center"></td>
-        <td align="center"><strong>veya</strong></td>
         <td align="center"></td>
         <td align="right">/</td>
         <td align="center"></td>
@@ -291,7 +288,6 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
         <td align="center"></td>
         <td align="center"><strong>a</strong></td>
         <td align="center"></td>
-        <td rowspan="3"></td>
         <td align="center"></td>
         <td align="center"><strong>a</strong></td>
         <td align="center"></td>
@@ -322,27 +318,6 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
         <td align="center"><strong>5</strong></td>
     </tr>
 </tbody></table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 - Türetme, aynen bu ağaç yapısının postorder taranma sırasını izler. Yani her dal için önce o dalın soldan başlayarak tüm alt dalları taranır, sonra da dalın kendisi taranır. 
 - Üretim kurallarının yanında yeralan işlemler, { } içerisinde C ifadeleridir (C bloku). Burada $n şeklindeki hayali değişkenler, sembollerin sıfatlarına karşılık gelirler. Soldaki ara sembolün sıfatı $0 veya $$ ile, sağdaki k.ıncı sembolün sıfatı da $k ile gösterilir. { } içerisinde, diğer işlemlerin yanısıra $1,$2,...,$n işlenerek elde edilen sonuç $$'a atanır. 
