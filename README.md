@@ -257,67 +257,86 @@ ifade    : ifade '+' ifade       {$$=$1+$3;}
 gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetilir:
 
 <table>
-    <tbody><tr>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center"><strong>s</strong></td>
-        <td align="center"></td>
+  <tbody>
+    <tr>
         <td align="center"></td>
         <td align="center"></td>
         <td align="center"></td>
         <td align="center"></td>
-        <td align="center"><strong>s</strong></td>
+        <td align="center">+</td>
+        <td align="center"></td>
+        <td align="center"></td>
+        <td align="center"></td>
+        <td align="center"></td>
+    </tr>  
+    <tr>
+        <td align="center"></td>
+        <td align="center"></td>
+        <td align="center"></td>
+        <td align="center">/</td>
+        <td align="center"></td>
+        <td align="center">\</td>
+        <td align="center"></td>
         <td align="center"></td>
         <td align="center"></td>
     </tr>
     <tr>
         <td align="center"></td>
-        <td align="right">/</td>
         <td align="center"></td>
-        <td align="left">\</td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="right">/</td>
-        <td align="center"></td>
-        <td align="left">\</td>
-        <td align="center"></td>
-    </tr>
-    <tr>
-        <td align="center"></td>
-        <td align="center"><strong>a</strong></td>
-        <td align="center"></td>
-        <td align="center"><strong>a</strong></td>
+        <td align="center">/</td>
         <td align="center"></td>
         <td align="center"></td>
-        <td align="center"><strong>a</strong></td>
+        <td align="center">*</td>
         <td align="center"></td>
-        <td align="center"><strong>a</strong></td>
+        <td align="center"></td>
         <td align="center"></td>
     </tr>
     <tr>
-        <td align="right">/</td>
         <td align="center"></td>
-        <td align="right">/</td>
+        <td align="center">/</td>
         <td align="center"></td>
-        <td align="left">\</td>
-        <td align="right">/</td>
         <td align="center"></td>
-        <td align="right">/</td>
+        <td align="center">/</td>
         <td align="center"></td>
-        <td align="left">\</td>
+        <td align="center">\</td>
+        <td align="center"></td>
+        <td align="center"></td>
     </tr>
     <tr>
-        <td align="center"><strong>1</strong></td>
+        <td align="center">/</td>
         <td align="center"></td>
-        <td align="center"><strong>2</strong></td>
         <td align="center"></td>
-        <td align="center"><strong>3</strong></td>
+        <td align="center">*</td>
         <td align="center"></td>
-        <td align="center"><strong>4</strong></td>
         <td align="center"></td>
-        <td align="center"><strong>5</strong></td>
+        <td align="center"></td>
+        <td align="center">^</td>
+        <td align="center"></td>
     </tr>
-</tbody></table>
+    <tr>
+        <td align="center">|</td>
+        <td align="center"></td>
+        <td align="center">/</td>
+        <td align="center"></td>
+        <td align="center">\</td>
+        <td align="center"></td>
+        <td align="center">/</td>
+        <td align="center"></td>
+        <td align="center">\</td>
+    </tr>
+    <tr>
+        <td align="center">1</td>
+        <td align="center"></td>
+        <td align="center">2</td>
+        <td align="center"></td>
+        <td align="center">3</td>
+        <td align="center"></td>
+        <td align="center">4</td>
+        <td align="center"></td>
+        <td align="center">5</td>
+    </tr>
+  </tbody>
+</table>
 
 - Türetme, aynen bu ağaç yapısının postorder taranma sırasını izler. Yani her dal için önce o dalın soldan başlayarak tüm alt dalları taranır, sonra da dalın kendisi taranır. 
 - Üretim kurallarının yanında yeralan işlemler, { } içerisinde C ifadeleridir (C bloku). Burada $n şeklindeki hayali değişkenler, sembollerin sıfatlarına karşılık gelirler. Soldaki ara sembolün sıfatı $0 veya $$ ile, sağdaki k.ıncı sembolün sıfatı da $k ile gösterilir. { } içerisinde, diğer işlemlerin yanısıra $1,$2,...,$n işlenerek elde edilen sonuç $$'a atanır. 
