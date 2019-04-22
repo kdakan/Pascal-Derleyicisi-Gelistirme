@@ -346,11 +346,9 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
 - Özel bir ara sembol olan error sembolü, derlenen programda karşılaşılan sözdizimi hatasının, sanki olmamış gibi error sembolüne türetilmesi ve hatalı kısmın atlanarak derlenmeye devam edilmesi için kullanılır.
 
 ## 13. Değişkenlerin depolanışı ve Fonksiyonların bağlantısı:
-
 - Pascal dili blok yapılı bir dil olduğundan, C, BASIC ve FORTRAN'dan farklı olarak iç içe bloklar, yani iç içe fonksiyonlar tanımlanabilir. 
 - Tanımlanan bir sembol, tanımlandığı blok ve bunun içindeki tüm alt bloklar içinden görülebilir, üst bloklardan görülemez. Depolanma yani yaşam süresi de, o bloğun ömrü kadardır. 
 - Fonksiyon ve prosedürler, rekürsif biçimde kendi kendilerini çağırabilirler. Geçici (lokal) değişkenler de tanımlanabilir. Bütün bunlar, en uygun şekilde stack üzerinde sağlanabilir. 
-
 
 Programın çalışma süresince stack'in aldığı genel yapı şöyledir:
 ```
@@ -541,37 +539,37 @@ i=funca(expr1,expr2);	       INT 1
 
 - Tek bağlı liste:
 ```
-l->d
-   s->d
-      s->d
-         s->d
-            s->0
+baş->d
+     s->d
+        s->d
+           s->d
+              s->0
 ```
-Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler de bir sonraki hücreyi gösteren pointer'lardır. İlk hücrenin adresi l'de tutulur. En son hücrede s'nin değeri NULL, yani 0'dir.
+Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler de bir sonraki hücreyi gösteren pointer'lardır. İlk hücrenin adresi baş'da tutulur. En son hücrede s'nin değeri NULL, yani 0'dir.
 C dilinde şu şekilde tanımlanır:
 ```
 struct snode {
     int d;
     struct snode *s; /* sonraki */
-} *l;
+} *baş;
 ```
 - Çift bağlı liste:
 ```
-   ö=0 
-l->d<-ö
-   s->d<-ö 
-      s->d<-ö
-         s->d<-son
-            s=0
+     ö=0 
+baş->d<-ö
+     s->d<-ö 
+        s->d<-ö
+           s->d<-son
+              s=0
 ```
-Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler bir sonraki hücreyi gosteren, ö'ler ise bir önceki hücreyi gösteren pointer'lardır. İlk hücrenin adresi l'de,istenirse son hücrenin adresi son'da tutulur.En baş hücrede ö'nün değeri, en son hücrede s'nin değerleri NULL, yani 0'dir. 
+Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler bir sonraki hücreyi gosteren, ö'ler ise bir önceki hücreyi gösteren pointer'lardır. En baştaki hücrenin adresi baş'da, istenirse son hücrenin adresi son'da tutulur. En baş hücrede ö'nün değeri, en son hücrede s'nin değerleri NULL, yani 0'dir. 
 C dilinde şu şekilde tanımlanır:
 ```
 struct snode {
     int d;
     struct snode *ö; /* önceki */
     struct snode *s; /* sonraki */
-} *l, *son;
+} *baş, *son;
 ```
 Dinamik Stack :
 
@@ -580,15 +578,14 @@ pointer da stack'in üstünü östermiş olur. Böylece büyüklüğü dinamik
 olarak değişen bir stack yapısı elde edilir.
 
 Derleyicide kullanılan bazı değişken ve fonksiyonlar:
-```
-symblocktop: sembol tablosundaki (stack'teki) en üst elemanı gösteren pointer'dır.
-pushsymblock(): sembol stack'ine yeni sembol bloku yükler. (stack'i 1 blok büyültür)
-popsymblock(): sembol stack'inden bir sembol bloku atar. (stack'i 1 blok küçültür.
-instconst(), instlabel(), insttype(), instvar():
-Sembol stack'inin üstündeki bloka sırasıyla yeni sabit, etiket, tip ve değişken ekler.
-makeptrtype(), makeenumtype(), makerangetype(), makeidtype(), makerectype(), makearraytype(), makeuniontype(),
-makesettype(), makefiletype(): Çeşitli tip hücreleri oluşturur. Değişkenlerin tipleri,sembol tablosunda birbirine bağlı tip hücreleri şeklinde tutulur.
-```
+
+- `symblocktop`: Sembol tablosundaki (stack'teki) en üst elemanı gösteren pointer'dır.
+- `pushsymblock()`: Sembol stack'ine yeni sembol bloku yükler. (stack'i 1 blok büyültür)
+- `popsymblock()`: Sembol stack'inden bir sembol bloku atar. (stack'i 1 blok küçültür.
+- `instconst()`, `instlabel()`, `insttype()`, `instvar()`: Sembol stack'inin üstündeki bloka sırasıyla yeni sabit, etiket, tip ve değişken ekler.
+- `makeptrtype()`, `makeenumtype()`, `makerangetype()`, `makeidtype()`, `makerectype()`, `makearraytype()`, `makeuniontype()`,
+   `makesettype()`, `makefiletype()`: Çeşitli tip hücreleri oluşturur. Değişkenlerin tipleri, sembol tablosunda birbirine bağlı tip hücreleri şeklinde tutulur.
+
 Tip hücresi şöyle tanımlıdır:
 ```
 struct stype {
@@ -597,25 +594,70 @@ struct stype {
 };
 ```
 Burada metatype `TENUM`, `TID`, `TREC`, `TUNION`, `TARR`, `TFILE`, `TSET` ve `TRANGE` sabitlerinden birini tutar. restptr, her tip için farklı türden bilgileri içeren bir yapıyı gösterir. Bu yapılar şöyledir:
-```
-metatype restptr
--------------------------------------------------------------------
-TENUM -->id0-->id1-->...-->idN (bağlı liste, id'ler strig olup, ayrıca sembol tablosuna 0'dan N'ye kadar sabitler olarak kaydedilir)
-
-TRANGE -->altsınır,üstsınır,tip (tip karakter veya nümeriktir)
-Örnek: VAR r:(A..Z) altsınır=A, üstsınır=Z, tip=karakter
-
-TID -->id (id: eşdeğer tipin ismi)
-Örnek: TYPE sayıtipi = INTEGER; (INTEGER'in eşdegeri bir tip)
-VAR i:sayıtipi id="sayıtipi"
-
-TARRAY -->tip,inextipi1-->...-->indextipiN (bağlı liste,N elemanlı dizideki indislerin tipleri)
-
-TREC ve TUNION -->fields1-->...-->fieldsN (bağlı liste, her bir fields da,aynı tipten sahaların oluşturduğu bir bağlı liste ve tip çiftidir)
-Örnek: VAR u: UNION
+<table>
+    <tr>
+        <td>metatype</td>
+        <td>restptr</td>
+    </tr>
+    <tr>
+        <td>TENUM</td>
+        <td>-->id0-->id1-->...-->idN</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>(bağlı liste, id'ler string olup, ayrıca sembol tablosuna 0'dan N'ye kadar sabitler olarak kaydedilir)</td>
+    </tr>
+    <tr>
+        <td>TRANGE</td>
+        <td>-->altsınır,üstsınır,tip (tip karakter veya nümeriktir)</td>
+    </tr>
+    <tr>
+        <td>Örnek:</td>
+        <td>VAR r:(A..Z) altsınır=A, üstsınır=Z, tip=karakter</td>
+    </tr>
+    <tr>
+        <td>TID</td>
+        <td>-->id (id: eşdeğer tipin ismi)</td>
+    </tr>
+    <tr>
+        <td>Örnek:</td>
+        <td>TYPE sayıtipi = INTEGER; (INTEGER'in eşdegeri bir tip)
+    </tr>
+    <tr>
+        <td></td>
+        <td>VAR i:sayıtipi id="sayıtipi"</td></td>
+    </tr>
+    <tr>
+        <td>TARRAY</td>
+        <td>-->tip,inextipi1-->...-->indextipiN</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>(bağlı liste,N elemanlı dizideki indislerin tipleri)</td>
+    </tr>
+    <tr>
+        <td>TREC ve TUNION</td>
+        <td>-->fields1-->...-->fieldsN</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>(bağlı liste, her bir fields da,aynı tipten sahaların oluşturduğu bir bağlı liste ve tip çiftidir)</td>
+    </tr>
+    <tr>
+        <td>Örnek:</td>
+        <td>VAR u: UNION
 f1,f2,f3: REAL; fields1->(f1,f2,f3,REAL)
 i1,i2: INTEGER; fields2->(i1->i2,INTEGER)
-END;
+END;</td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+
+  
+ 
 
 TPTR -->tip (pointerın gösterdiği tip)
 Örnek: VAR p: ^ tip
