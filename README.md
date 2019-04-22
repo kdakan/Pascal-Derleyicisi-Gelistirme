@@ -78,7 +78,7 @@ Chomsky sınıflandırmasına göre gramerler genelden özele doğru birbirlerin
 Kelime ve sözdizimi analizinin ayrı ayrı yapılmasının nedeni de, ayrıştırılan dillerin farklı gramer sınıflarından olmasıdır. Kelime analizi çok daha etkin algoritmalarla yapılır.
 
 ## 4. Gramerlerin Denkliği, Belirsizliği:
-L(G) ve L(H) kümeleri birbirine eşitse, G ve H gramerlerine denk gramerler denir. Üretimler farklı sıralarda uygulanıp aynı bir cümle farklı şekilde türetilebiliyorsa bu gramere belirsiz (ambiguous) gramer denir. Ayrıştırıcı (parser)'ın bu tür belirsiz bir grameri tek şekilde tanıması sağlanmalıdır, aksi halde alınacak sonuçlar her seferinde değişik olacaktır. Örneğin şu gramerde:
+L(G) ve L(H) kümeleri birbirine eşitse, G ve H gramerlerine denk gramerler denir. Üretimler farklı sıralarda uygulanıp aynı bir cümle farklı şekilde türetilebiliyorsa bu gramere belirsiz (ambiguous) gramer denir. Ayrıştırıcı (parser)'ın bu tür belirsiz bir grameri tek şekilde tanıması sağlanmalıdır, aksi halde alınacak sonuçlar her seferinde değişik olacaktır. Belirsiz gramerler, örneğin aritmetik işlemlerde sıkça karşımıza çıkar, bu durumda aritmetik işlemler için sağa veya sola birleşim ve öncelik kuralları tanımlanarak belirsizlik çözülebilir. Örneğin şu gramerde:
 ```
 s -> aa
 a -> x | xx
@@ -156,12 +156,12 @@ Bunlardan birisi parser tarafından tercih edilmelidir.
 ## 5. Nitelikler (attributes) ve Genişletilmiş Gramer:
 Her sembolün taşıdığı kendisine ait nitelikleri bulunur. Üretimlerin yanında bu niteliklerle ilgili işlemler konarak elde edilen gramere genişletilmiş gramer denir. Sol taraftaki sembolün niteliği, sağda yeralan sembollerin nitelikleri işlenerek oluşuyorsa, yani bunların bir fonksiyonuysa:
 
-x -> y1 y2 y3 ... yn ve x.a = f(y1.a, y2.a, y3.a,...,yn.a) ise
+x -> y1 y2 y3 ... yn ve x.a = f(y1.a, y2.a, y3.a, ..., yn.a) ise
 
 (burada x.a ile x'in taşıdığı a niteliği gösteriliyor), bu niteliklere sentezlenmiş nitelikler (synthesized attributes) denir.
 
 ## 6. Lex ve YACC kullanımı:
-UNIX sisteminde mevcut olan Lex ve YACC programları, derleyici oluşturmada çok büyük kolaylıklar sağlar. Lex programı, verilen bir sonlu grameri kabul eden, yani tanıyan tarayıcı üretir. YACC de benzer şekilde, verilen genişletilmiş bir LALR grameri kabul eden ve üretimler sırasında, bunların yanında verilmiş olan sıfatlarla ilgili işlemleri yapan bir parser üretir. İki programın çıktısı da, yani oluşturdukları tarayıcı ve parser programlar C dili ile yazılmıştır.
+UNIX sisteminde mevcut olan Lex ve YACC programları, derleyici oluşturmada çok büyük kolaylıklar sağlar. Lex programı, verilen bir sonlu grameri kabul eden, yani tanıyan tarayıcı üretir. YACC de benzer şekilde, verilen genişletilmiş bir LALR grameri kabul eden ve üretimler sırasında, bunların yanında verilmiş olan niteliklerle ilgili işlemleri yapan bir parser üretir. İki programın çıktısı da, yani oluşturdukları tarayıcı ve parser programlar C dili ile yazılmıştır.
 
 ## 7. Lex dosya yapısı:
 ```
@@ -175,8 +175,8 @@ lex düzgün-ifadeleri ve işlemler
 C ifadeleri (kullanıcı fonksiyonları)
 ```
 
-## 8. Lex düzgün-ifadeleri ve operatörler:
-Lex'de kullanılan düzgün-ifadeler, lex operatörleri ve tanınması istenen karakterlerden oluşur.
+## 8. Lex düzenli-ifadeleri (regular expressions) ve operatörler:
+Lex'de kullanılan düzenli-ifadeler, lex operatörleri ve tanınması istenen karakterlerden oluşur.
 ```
 .	\n harici tek bir karakter	.a	satır başında olmayan a ve a'dan önceki karakter
 *	sıfır veya daha fazla adet	a[a-z]*	a ile başlayan küçük harfli kelimeler (a dahil)
@@ -340,33 +340,34 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
 </table>
 
 - Türetme, aynen bu ağaç yapısının postorder taranma sırasını izler. Yani her dal için önce o dalın soldan başlayarak tüm alt dalları taranır, sonra da dalın kendisi taranır. 
-- Üretim kurallarının yanında yeralan işlemler, { } içerisinde C ifadeleridir (C bloku). Burada $n şeklindeki hayali değişkenler, sembollerin sıfatlarına karşılık gelirler. Soldaki ara sembolün sıfatı $0 veya $$ ile, sağdaki k.ıncı sembolün sıfatı da $k ile gösterilir. { } içerisinde, diğer işlemlerin yanısıra $1,$2,...,$n işlenerek elde edilen sonuç $$'a atanır. 
+- Üretim kurallarının yanında yeralan işlemler, { } içerisinde C ifadeleridir (C bloku). Burada $n şeklindeki hayali değişkenler, sembollerin niteliklerine karşılık gelirler. Soldaki ara sembolün niteliği $0 veya $$ ile, sağdaki k.ıncı sembolün niteliği de $k ile gösterilir. { } içerisinde, diğer işlemlerin yanısıra $1,$2,...,$n işlenerek elde edilen sonuç $$'a atanır. 
 - Bu değerler, aslında parser'ın kullandığı stack üzerinde sembollerle birlikte tutularak yukarı doğru işlenerek yolalır, yoksa gerçekte ağaç veri yapısı kullanılmaz. 
 - En üst kuralın solundaki sembol, ya da %start ile tanımlanmış başka bir sembol, cümlesel semboldür. Tüm semboller, uç sembollerden başlamak üzere, sağ tarafında yeraldıkları kuralın solundaki ara sembole, aşağıdan yukarı doğru türetilirler. 
 - Bu aşamalarda taşınan nitelikler kullanılarak ve işlenerek yukarı aşamalara geçirilerek, sonunda cümlesel sembole ulaşıldığında derlenme süreci biter. 
 - Özel bir ara sembol olan error sembolü, derlenen programda karşılaşılan sözdizimi hatasının, sanki olmamış gibi error sembolüne türetilmesi ve hatalı kısmın atlanarak derlenmeye devam edilmesi için kullanılır.
 
-## 13. Değişkenlerin depolanışı ve Fonksiyonların bağlantısı:
+## 13. Değişkenlerin depolanışı ve Fonksiyon/Prosedür blokları arası bağlantı:
+- Pascal dilinde yazılmış kaynak kod, derlendikten sonra, P-makinesi adı verilen ve derlenmiş arakodun (P-kod) çalışacağı sanal makine üzerinde çalıştırılır. Bu sanal makinede sadece stack ve stack'i adresleyen iki yazmaç bulunur. Tüm veriler, pointer değişkenler de dahil olmak üzere, stack'de tutulur. Aritmetik ve lojik işlemlerin sonuçları da stack üzerine yerleşir.
 - Pascal dili blok yapılı bir dil olduğundan, C, BASIC ve FORTRAN'dan farklı olarak iç içe bloklar, yani iç içe fonksiyonlar tanımlanabilir. 
 - Tanımlanan bir sembol, tanımlandığı blok ve bunun içindeki tüm alt bloklar içinden görülebilir, üst bloklardan görülemez. Depolanma yani yaşam süresi de, o bloğun ömrü kadardır. 
 - Fonksiyon ve prosedürler, rekürsif biçimde kendi kendilerini çağırabilirler. Geçici (lokal) değişkenler de tanımlanabilir. Bütün bunlar, en uygun şekilde stack üzerinde sağlanabilir. 
 
 Programın çalışma süresince stack'in aldığı genel yapı şöyledir:
 ```
-değişken N <- T
+değişkenN <- T
 ...	 	 
-değişken 1	 	 
+değişken1	 	 
 dönüş adresi	 	 
 dinamik link	 	 
 statik link <- B
-parametre M	 	 
+parametreM	 	 
 ...	 	 
-parametre 1	 	 
+parametre1	 	 
 dönüş değeri	 	 
 ```
 
-- Burada B ve T, P-makinesi adı verilen ve derlenmiş kodun çalışacağı sanal makinenin iki yazmacıdır. T, stack'in tepesini gösteren, B ise stack'i adresleyen pointerdır. 
-- Bütün adresler, B'nin tuttuğu base adrese pozitif veya negatif bir ofset eklenerek belirtilir. Parametre 1,...,M o an işleyen fonksiyonun parametreleri için, değişken1,...,N fonksiyonun içinde tanımlanmış olan lokal değişkenler için, dönüş değeri ise fonksiyonun dönüş değeri için ayrılmış alanı gösterir. 
+- Burada B ve T, P-makinesi adı verilen ve derlenmiş arakodun (P-kod) çalışacağı sanal makinenin iki yazmacıdır. T, stack'in tepesini gösteren, B ise stack'i adresleyen pointerdır. 
+- Bütün adresler, B'nin tuttuğu base adrese pozitif veya negatif bir ofset eklenerek belirtilir. Parametre1, ..., ParametreM o an işleyen fonksiyonun parametreleri için, değişken1, ..., değişkenN fonksiyonun içinde tanımlanmış olan lokal değişkenler için, dönüş değeri ise fonksiyonun dönüş değeri için ayrılmış alanı gösterir. 
 - Statik link, fonksiyonu (bloku) içeren üst blok fonksiyonlarındaki değişkenlere, bu fonksiyon tarafınfan erişilebilmesi için konmuş olan, bir üst bloğun base adresidir. 
 - Dinamik link, bu fonksiyonun işleyişi sona erdiğinde çağrıldığı noktaya geri döndüğünde, o fonksiyonun değişkenleri ve diğer stack yapısına tekrar dönmesini sağlayan, çağıran fonksiyonun base adresidir. 
 - Dönüş adresi, fonksiyonun geri döndüğü zaman çalıştırılacak komutun adresidir. 
@@ -544,7 +545,7 @@ baş->d
      s->d
         s->d
            s->d
-              s->0
+              s=0
 ```
 Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler de bir sonraki hücreyi gösteren pointer'lardır. İlk hücrenin adresi baş'da tutulur. En son hücrede s'nin değeri NULL, yani 0'dir.
 C dilinde şu şekilde tanımlanır:
@@ -685,5 +686,5 @@ Bu tür fonksiyonlar: `addidnode()`, `addtypenode()`, `addfieldsnode()`, `addfpa
 
 `linkNcodes()`: P-kodlardan oluşan N adet bağlı listeyi birleştirip, tek bir bağlı liste haline getirir.
 
-`codeXXX()`: XXX P-kodunu üretir. Üretilen kod aslında veri kısmı P-kod olan tek elemanlı bir bağlı listedir. Kod üretimi sırasında değişik zamanlarda üretilen kod parçaları (bağlı listeler), `linkNcodes()` ile farklı aşamalarda birleştirilir ve en sonunda tek parça haline getirilir bu bağlı listenin adresi program isimli değişkene atanır.
+`codeXXX()`: XXX P-kodunu üretir. Üretilen kod aslında veri kısmı P-kod olan tek elemanlı bir bağlı listedir. Ayrıştırma sırasında farklı zamanlarda üretilen kod parçaları (bağlı listeler), `linkNcodes()` ile farklı aşamalarda birleştirilir ve en sonunda tek parça haline getirilir bu bağlı listenin adresi program isimli değişkene atanır.
 ```
