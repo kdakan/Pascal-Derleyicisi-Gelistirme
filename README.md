@@ -683,7 +683,7 @@ END;</td>
 `addXnode()`: X'lerden oluşan bağlı listeye yeni hücre ekler.
 Bu tür fonksiyonlar: `addidnode()`, `addtypenode()`, `addfieldsnode()`, `addfparsec()`, `addexprnode()`, `addclinenode()`, `addconstnode()`, `addvarnode()`
 
-`inkNcodes()`: P-kodlardan oluşan N adet bağlı listeyi birleştirip, tek bir bağlı liste haline getirir.
+`linkNcodes()`: P-kodlardan oluşan N adet bağlı listeyi birleştirip, tek bir bağlı liste haline getirir.
 
 `codeXXX()`: XXX P-kodunu üretir. Üretilen kod aslında veri kısmı P-kod olan tek elemanlı bir bağlı listedir. Kod üretimi sırasında değişik zamanlarda üretilen kod parçaları (bağlı listeler), `linkNcodes()` ile farklı aşamalarda birleştirilir ve en sonunda tek parça haline getirilir bu bağlı listenin adresi program isimli değişkene atanır.
 ```
