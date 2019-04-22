@@ -64,7 +64,7 @@ Bir dilin grameri (G), aşağıda gösterilen sade örnekteki gibi:
 Chomsky sınıflandırmasına göre gramerler genelden özele doğru birbirlerini içeren 4 sınıfa ayrılırlar:
 
 1. Serbest gramerler:
-Üretimler u -> v şeklindedir. Burada u,v∈V ve u<>EPSİLON dur.
+Üretimler u -> v şeklindedir. Burada u,v∈V ve u≠EPSİLON dur.
 
 2. Çevre-bağımlı (context-sensitive) gramerler:
 Üretimler uxv -> uvw şeklindedir. Burada u,v,w⊂V, v≠EPSİLON ve x∈N dir. Yani, x ara sembolü, yalnızca u ve w sembol grupları ile çevrelendiği takdirde v sembol grubu ile türetilebilir.
@@ -425,7 +425,7 @@ OPR 0,5	    bölümünü al                               POP A, POP B, PUSH (B/
 OPR 0,6	    alt bitini al                             POP A, PUSH (A AND 1)
 OPR 0,7	    kalanını al                               POP A, POP B, PUSH (B MOD A)
 OPR 0,8	    eşit mi                                   POP A, POP B, PUSH (B =? A)
-OPR 0,9	    farklı mı                                 POP A, POP B, PUSH (B <>? A)
+OPR 0,9	    farklı mı                                 POP A, POP B, PUSH (B ≠? A)
 OPR 0,10    küçük mü                                  POP A, POP B, PUSH (B <? A)
 OPR 0,11    büyük eşit mi                             POP A, POP B, PUSH (B >=? A)
 OPR 0,12    büyük mü                                  POP A, POP B, PUSH (B >? A)
