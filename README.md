@@ -6,7 +6,7 @@
 - [ 2. Gramer, Üretim, Alfabe, Dil](#2-gramer-üretim-alfabe-dil)
 - [ 3. Gramerlerin Sınıflandırılması](#3-gramerlerin-sınıflandırılması)
 - [ 4. Gramerlerin Denkliği, Belirsizliği](#4-gramerlerin-denkliği-belirsizliği)
-- [ 5. Özellikler (attributes) ve Genişletilmiş Gramer(#5-özellikler-(attributes)-ve-genişletilmiş-gramer)
+- [ 5. Özellikler (attributes) ve Genişletilmiş Gramer(#5-özellikler-attributes-ve-genişletilmiş-gramer)
 - [ 6. Lex ve YACC kullanımı](#6-lex-ve-YACC-kullanımı)
 - [ 7. Lex'in kabul ettiği (.l uzantılı) dosya yapısı](#7-lexin-kabul-ettiği-l-uzantılı-dosya-yapısı)
 - [ 8. Lex düzgün-ifadeleri ve operatörler](#8-lex-düzgün-ifadeleri-ve-operatörler)
@@ -402,38 +402,36 @@ A'nın sembolleri
 ```
 
 ## 15. Genel olarak P-kodlar:
-
-p-kod	opkod	anlamı
-LIT 0,N	00	N değerini stack'e yükle
-OPR 0,N	01	stack üstünde aritmetik N işlemi yap
-LOD L,N	02	değişkeni stack'e yükle
-LODX L,N	12	dizi değişkeni stack'e yükle
-STO L,N	03	değişkeni stack'ten yükle
-STOX L,N	13	dizi değişkeni stack'ten yükle
-CRL L,N	04	prosedür veya fonksiyon çağır
-INT 0,N	05	T'ye poz. veya neg. sabit ekle
-JMP 0,N	06	adrese dallan
-JPC C,N	07	adrese koşullu dallan
-CSP 0,N	08	standart prosedür çağır
- 
-
+```
+p-kod      opkod   anlamı
+LIT 0,N	    00	   N değerini stack'e yükle
+OPR 0,N	    01	   stack üstünde aritmetik N işlemi yap
+LOD L,N	    02	   değişkeni stack'e yükle
+LODX L,N    12	   dizi değişkeni stack'e yükle
+STO L,N	    03	   değişkeni stack'ten yükle
+STOX L,N    13	   dizi değişkeni stack'ten yükle
+CRL L,N	    04	   prosedür veya fonksiyon çağır
+INT 0,N	    05	   T'ye poz. veya neg. sabit ekle
+JMP 0,N	    06	   adrese dallan
+JPC C,N	    07	   adrese koşullu dallan
+CSP 0,N	    08	   standart prosedür çağır
+```
 Not: opkod onaltılık sayı düzenindedir.
 
-P-kod detayları:
- 
-
-p-kod	yaptığı iş	 
-LIT 0,N	N sabitini stack'e yükle	PUSH N
-OPR 0,0	prosedür veya fonksiyondan geri dön	 
-OPR 0,1	negatifini al	POP A, PUSH (-A)
-OPR 0,2	toplamını al	POP A, POP B, PUSH (B+A)
-OPR 0,3	farkını al	POP A, POP B, PUSH (B-A)
-OPR 0,4	çarpımını al	POP A, POP B, PUSH (B*A)
-OPR 0,5	bölümünü al	POP A, POP B, PUSH (B/A)
-OPR 0,6	alt bitini al	POP A, PUSH (A AND 1)
-OPR 0,7	kalanını al	POP A, POP B, PUSH (B MOD A)
-OPR 0,8	eşit mi	POP A, POP B, PUSH (B =? A)
-OPR 0,9	farklı mı	POP A, POP B, PUSH (B <>? A)
+## 16. P-kod detayları:
+```
+p-kod	    yaptığı iş	 
+LIT 0,N	    N sabitini stack'e yükle	PUSH N
+OPR 0,0	    prosedür veya fonksiyondan geri dön	 
+OPR 0,1	    negatifini al	POP A, PUSH (-A)
+OPR 0,2	    toplamını al	POP A, POP B, PUSH (B+A)
+OPR 0,3	    farkını al	POP A, POP B, PUSH (B-A)
+OPR 0,4	    çarpımını al	POP A, POP B, PUSH (B*A)
+OPR 0,5	    bölümünü al	POP A, POP B, PUSH (B/A)
+OPR 0,6	    alt bitini al	POP A, PUSH (A AND 1)
+OPR 0,7	    kalanını al	POP A, POP B, PUSH (B MOD A)
+OPR 0,8	    eşit mi	POP A, POP B, PUSH (B =? A)
+OPR 0,9	    farklı mı	POP A, POP B, PUSH (B <>? A)
 OPR 0,10	küçük mü	POP A, POP B, PUSH (B <? A)
 OPR 0,11	büyük eşit mi	POP A, POP B, PUSH (B >=? A)
 OPR 0,12	büyük mü	POP A, POP B, PUSH (B >? A)
@@ -446,131 +444,142 @@ OPR 0,18	sağa shift	POP A, POP B, PUSH (B sağa shift (A kere))
 OPR 0,19	arttır	POP A, PUSH (A+1)
 OPR 0,20	eksilt	POP A, PUSH (A-1)
 OPR 0,21	kopyala	POP A, PUSH A, PUSH A
-LOD L,D	adresten yükle	A'yi (L,D)'den yükle, PUSH A
-LOD 255,0	stack üzerindeki adresten yükle	POP A, POP adres, A'nin alt byte'ini adrese yükle
-LODX L,D	indexli yükle	POP index, A'yi (L,D)+index'ten yükle, PUSH A
-STO L,D	stack üzerinden adrese yükle	POP A, A'yi (L,D)'ye yükle
+LOD L,D	    adresten yükle	A'yi (L,D)'den yükle, PUSH A
+LOD 255,0   stack üzerindeki adresten yükle	POP A, POP adres, A'nin alt byte'ini adrese yükle
+LODX L,D    indexli yükle	POP index, A'yi (L,D)+index'ten yükle, PUSH A
+STO L,D	    stack üzerinden adrese yükle	POP A, A'yi (L,D)'ye yükle
 STO 255,0	stack üzerinden stack'teki adrese yükle	POP A, POP adres, A'nin alt byte'ini adrese yükle
 STOX L,D	indexli yükle	POP index, POP A, A'yi (L,D)+index'e yükle
-CAL L,A	çağır	(L,A)'yı çağır
+CAL L,A	    çağır	(L,A)'yı çağır
 CAL 255,0	stack'teki adresi çağır	POP adres, PUSH dönüş adresi (=pc), adrese dallan
-INT 0,N	T ye N ekle	T=T+N
-JMP 0,A	dallan	(0,A)'ya dallan
-JPC 0,A	doğruysa dallan	POP A, eğer (A and 1) = 0 ise (0,A)'ya dallan
-CSP 0,0	karakter girişi	INPUT A, PUSH A
-CSP 0,1	karakter çıkışı	POP A, OUTPUT A
-CSP 0,2	tamsayı girişi	INPUT A#, PUSH A
-CSP 0,3	tamsayı çıkışı	POP A, OUTPUT A#
-CSP 0,8	string çıkışı	POP A, FOR I := 1 to A DO BEGIN POP B, OUTPUT B, END
+INT 0,N	    T ye N ekle	T=T+N
+JMP 0,A	    dallan	(0,A)'ya dallan
+JPC 0,A	    doğruysa dallan	POP A, eğer (A and 1) = 0 ise (0,A)'ya dallan
+CSP 0,0	    karakter girişi	INPUT A, PUSH A
+CSP 0,1	    karakter çıkışı	POP A, OUTPUT A
+CSP 0,2	    tamsayı girişi	INPUT A#, PUSH A
+CSP 0,3	    tamsayı çıkışı	POP A, OUTPUT A#
+CSP 0,8	    string çıkışı	POP A, FOR I := 1 to A DO BEGIN POP B, OUTPUT B, END
+```
 Not: doğru=1, yanlış=0
 
 POP X 'in anlamı: T'nin gösterdiği elemanı X'e yükle, T'yi 1 azalt.
 PUSH X 'in anlamı: T'yi 1 arttır, X'i T'nin gösterdiği elemana yükle.
 
-Temel Pascal yapıları için kod şablonları:
- 
+## 17. Temel Pascal yapıları için kod şablonları:
+```
+Pascal deyimi	               p-code karşılığı
+x+10*y[5]	                   LOD x
+ 	                           LIT 10
+                               LIT 5
+                               LODX Y
+                               OPR *
+                               OPR +
+ 	 
+a:=expr;	                   (expr)
+ 	                           STO a
+ 	 
+p^=expr;	                   (expr)
+ 	                           STO 255 p
+ 	 
+if expr then stmt1 else stmt2; (expr)
+ 	                           JPC 0,1b1
+                               (stmt1)
+                               JMP 1b2
+                               1b1: (stmt2)
+                               1b2: ...
+ 	 
+for i=expr1 to expr2 do stmt;  (expr1)
+ 	                           STO I
+                               (expr2)
+                               1b1: OPR CPY
+                               LOD I
+                               OPR >=
+                               JPC 0,1b2
+                               (stmt)
+                               LOD I
+                               OPR INC
+                               STO I
+                               JMP 1b1
+                               1b2: INT -1
+ 	 
+while expr do stmt	           1b1: (expr)
+ 	                           JPC 0,1b2
+                               (stmt)
+                               JMP 1b1
+                               1b2: ...
+ 	 
+case expr of	               (expr)
+c1b1,c1b2: stmt1;	           OPR CPY
+c1b3 : stmt2;	               LIT c1b1
+else stmt3 end;	               OPR =
+ 	                           JPC 1,1b1
+                               OPR CPY
+                               LIT c1b2
+                               OPR =
+                               JPC 0,1b2
+                               1b1: (stmt1)
+                               JMP 1b4
+                               1b2: OPR CPY
+                               LIT c1b3
+                               OPR =
+                               JPC 0,1b3
+                               (stmt2)
+                               JMP 1b4
+                               1b3: (stmt3)
+                               1b4: INT -1
+ 	 
+repeat stmt until expr;	       1b1: (stmt)
+ 	                           (expr)
+                               JPC 0,1b1
+ 	 
+i=funca(expr1,expr2);	       INT 1
+ 	                           (expr1)
+                               (expr2)
+                               CAL funca
+                               INT -2
+```
 
-Pascal deyimi	p-code karşılığı
-x+10*y[5]	LOD x
- 	LIT 10
-LIT 5
-LODX Y
-OPR *
-OPR +
- 	 
-a:=expr;	(expr)
- 	STO a
- 	 
-p^=expr;	(expr)
- 	STO 255 p
- 	 
-if expr then stmt1 else stmt2;	(expr)
- 	JPC 0,1b1
-(stmt1)
-JMP 1b2
-1b1: (stmt2)
-1b2: ...
- 	 
-for i=expr1 to expr2 do stmt;	(expr1)
- 	STO I
-(expr2)
-1b1: OPR CPY
-LOD I
-OPR >=
-JPC 0,1b2
-(stmt)
-LOD I
-OPR INC
-STO I
-JMP 1b1
-1b2: INT -1
- 	 
-while expr do stmt	1b1: (expr)
- 	JPC 0,1b2
-(stmt)
-JMP 1b1
-1b2: ...
- 	 
-case expr of	(expr)
-c1b1,c1b2: stmt1;	OPR CPY
-c1b3 : stmt2;	LIT c1b1
-else stmt3 end;	OPR =
- 	JPC 1,1b1
-OPR CPY
-LIT c1b2
-OPR =
-JPC 0,1b2
-1b1: (stmt1)
-JMP 1b4
-1b2: OPR CPY
-LIT c1b3
-OPR =
-JPC 0,1b3
-(stmt2)
-JMP 1b4
-1b3: (stmt3)
-1b4: INT -1
- 	 
-repeat stmt until expr;	1b1: (stmt)
- 	(expr)
-JPC 0,1b1
- 	 
-i=funca(expr1,expr2);	INT 1
- 	(expr1)
-(expr2)
-CAL funca
-INT -2
- 
+## Derleyicide kullanılan veri yapıları:
+- Bağlı listeler, dinamik diziler oluşturmak için kullanılır. 
+- Listeyi oluşturacak her bir hucre için tek tek C'deki malloc() fonksiyonu ile dinamik bellek ayırılmalı ve bir sonraki hücreyle bağlantısı kurulmalıdır.
 
-Derleyicide kullanılan veri yapıları:
-Bağlı listeler, dinamik diziler oluşturmak için kullanılır. Listeyi oluşturacak her bir hucre için tek tek C'deki malloc() fonksiyonu ile dinamik bellek ayırılmalı ve bir sonraki hücreyle bağlantısı kurulmalıdır.
-
-Tek bağlı liste:
-
-l	AG00088_.gif (337 bytes)	d	s	AG00041_.gif (503 bytes)	d	s	AG00084_.gif (503 bytes)	...	AG00084_.gif (503 bytes)	d	s=0
-
-Burada d'ler liste içinde sıralı sekilde tutulan bilgiler, s'ler de bir sonraki hücreyi gösteren pointer'lardır. İlk hücrenin adresi l'de tutulur. En son hücrede s'nin değeri NULL, yani 0'dir.C dilinde şu şekilde tanımlanır:
-
+- Tek bağlı liste:
+```
+l->d
+   s->d
+      s->d
+         s->d
+            s->0
+```
+Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler de bir sonraki hücreyi gösteren pointer'lardır. İlk hücrenin adresi l'de tutulur. En son hücrede s'nin değeri NULL, yani 0'dir.
+C dilinde şu şekilde tanımlanır:
+```
 struct snode
     {
     int d;
     struct snode *s;    /* sonraki */
     } *l;
-
-çift bağlı liste:
-
- 	 	ö=0	AG00091_.gif (505 bytes)	ö	AG00091_.gif (505 bytes)	...	AG00091_.gif (505 bytes)	ö	 	 
-l	AG00088_.gif (337 bytes)	d	 	d	 	 	 	d	AG00091_.gif (505 bytes)	son
- 	 	s	AG00041_.gif (503 bytes)	s	AG00084_.gif (503 bytes)	...	AG00084_.gif (503 bytes)	s=0	 	 
-Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler bir sonraki hücreyi gosteren, ö'ler ise bir önceki hücreyi gösteren pointer'lardır. İlk hücrenin adresi l'de,istenirse son hücrenin adresi son'da tutulur.En baş hücrede ö'nün değeri, en son hücrede s'nin değerleri NULL, yani 0'dir. C dilinde şu şekilde tanımlanır:
-
+```
+- Çift bağlı liste:
+```
+   ö=0 
+l->d<-ö
+   s->d<-ö 
+      s->d<-ö
+         s->d<-son
+            s=0
+```
+Burada d'ler liste içinde sıralı şekilde tutulan bilgiler, s'ler bir sonraki hücreyi gosteren, ö'ler ise bir önceki hücreyi gösteren pointer'lardır. İlk hücrenin adresi l'de,istenirse son hücrenin adresi son'da tutulur.En baş hücrede ö'nün değeri, en son hücrede s'nin değerleri NULL, yani 0'dir. 
+C dilinde şu şekilde tanımlanır:
+```
 struct snode
     {
     int d;
 struct snode *ö; /* önceki */
     struct snode *s;    /* sonraki */
     } *l, *son;
-
+```
 Dinamik Stack :
 
 Çift bağlı liste, stack olarak kullanılırsa, son hücreyi gösteren
@@ -578,23 +587,26 @@ pointer da stack'in üstünü östermiş olur. Böylece büyüklüğü dinamik
 olarak değişen bir stack yapısı elde edilir.
 
 Derleyicide kullanılan bazı değişken ve fonksiyonlar:
+```
 symblocktop: sembol tablosundaki (stack'teki) en üst elemanı gösteren pointer'dır.
 pushsymblock(): sembol stack'ine yeni sembol bloku yükler. (stack'i 1 blok büyültür)
 popsymblock(): sembol stack'inden bir sembol bloku atar. (stack'i 1 blok küçültür.
 instconst(), instlabel(), insttype(), instvar():
 Sembol stack'inin üstündeki bloka sırasıyla yeni sabit, etiket, tip ve değişken ekler.
 makeptrtype(), makeenumtype(), makerangetype(), makeidtype(), makerectype(), makearraytype(), makeuniontype(),
-makesettype(), makefiletype(): Çeşitli tip hücreleri oluşturur. Değişkenlerin tipleri,sembol tablosunda birbirine bağlı tip hücreleri şeklinde tutulur. Tip hücresi şöyle tanımlıdır:
-
+makesettype(), makefiletype(): Çeşitli tip hücreleri oluşturur. Değişkenlerin tipleri,sembol tablosunda birbirine bağlı tip hücreleri şeklinde tutulur.
+```
+Tip hücresi şöyle tanımlıdır:
+```
 struct     stype
            {
            char typetype; /* TENUM, TID, TREC, TUNION, */
                           /* TFILE, TSET, TRANGE, TARR */
            void *restptr; 
            };
-
-Burada typetype TENUM, TID, TREC, TUNION, TARR, TFILE, TSET ve TRANGE sabitlerinden birini tutar. restptr, her tip için farklı türden bilgileri içeren bir yapıyı gösterir. Bu yapılar şöyledir:
-
+```
+Burada typetype `TENUM`, `TID`, `TREC`, `TUNION`, `TARR`, `TFILE`, `TSET` ve `TRANGE` sabitlerinden birini tutar. restptr, her tip için farklı türden bilgileri içeren bir yapıyı gösterir. Bu yapılar şöyledir:
+```
 typetype restptr
 -------------------------------------------------------------------
 TENUM -->id0-->id1-->...-->idN (bağlı liste, id'ler strig olup, ayrıca sembol tablosuna 0'dan N'ye kadar sabitler olarak kaydedilir)
@@ -630,3 +642,4 @@ Bu tür fonksiyonlar: addidnode(), addtypenode(), addfieldsnode(),addfparsec(), 
 linkNcodes(): P-kodlardan oluşan N adet bağlı listeyi birleştirip, tek bir bağlı liste haline getirir.
 
 codeXXX(): XXX P-kodunu üretir. Üretilen kod aslında veri kısmı P-kod olan tek elemanlı bir bağlı listedir. Kod üretimi sırasında değişik zamanlarda üretilen kod parçaları (bağlı listeler), linkNcodes() ile farklı aşamalarda birleştirilir ve en sonunda tek parça haline getirilir bu bağlı listenin adresi program isimli değişkene atanır.
+```
