@@ -14,7 +14,7 @@
 - [10. YACC dosya yapısı](#10-yacc-dosya-yapısı)
 - [11. YACC Tanımları](#11-yacc-tanımları)
 - [12. Ağaç Türetim Örneği](#12-ağaç-türetim-örneği)
-- [13. Değişkenlerin depolanışı ve Fonksiyonların bağlantısı](#13-değişkenlerin-depolanışı-ve-fonksiyonların-bağlantısı)
+- [13. Değişkenlerin depolanışı ve bloklar arası bağlantılar](#13-değişkenlerin-depolanışı-ve-bloklar-arası-bağlantılar)
 - [14. Sembol tablosu](#14-sembol-tablosu)
 - [15. Genel olarak P-kodlar](#15-genel-olarak-p-kodlar)
 - [16. P-kod detayları](#16-p-kod-detayları)
@@ -346,7 +346,7 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
 - Bu aşamalarda taşınan nitelikler kullanılarak ve işlenerek yukarı aşamalara geçirilerek, sonunda cümlesel sembole ulaşıldığında derlenme süreci biter. 
 - Özel bir ara sembol olan error sembolü, derlenen programda karşılaşılan sözdizimi hatasının, sanki olmamış gibi error sembolüne türetilmesi ve hatalı kısmın atlanarak derlenmeye devam edilmesi için kullanılır.
 
-## 13. Değişkenlerin depolanışı ve Fonksiyon/Prosedür blokları arası bağlantı:
+## 13. Değişkenlerin depolanışı ve bloklar arası bağlantılar:
 - Pascal dilinde yazılmış kaynak kod, derlendikten sonra, P-makinesi adı verilen ve derlenmiş arakodun (P-kod) çalışacağı sanal makine üzerinde çalıştırılır. Bu sanal makinede sadece stack ve stack'i adresleyen iki yazmaç bulunur. Tüm veriler, pointer değişkenler de dahil olmak üzere, stack'de tutulur. Aritmetik ve lojik işlemlerin sonuçları da stack üzerine yerleşir.
 - Pascal dili blok yapılı bir dil olduğundan, C, BASIC ve FORTRAN'dan farklı olarak iç içe bloklar, yani iç içe fonksiyonlar tanımlanabilir. 
 - Tanımlanan bir sembol, tanımlandığı blok ve bunun içindeki tüm alt bloklar içinden görülebilir, üst bloklardan görülemez. Depolanma yani yaşam süresi de, o bloğun ömrü kadardır. 
