@@ -22,7 +22,7 @@
 - [18. Derleyicide kullanılan veri yapıları](#18-derleyicide-kullanılan-veri-yapıları)
 - [19. Derleyicide kullanılan tipler ve fonksiyonlar](#19-derleyicide-kullanılan-tipler-ve-fonksiyonlar)
 
-## 1. Derleyicinin bileşenleri:
+## 1. Derleyici bileşenleri:
 Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
 
 1. Tarayıcı (kelime analizi yapar, kelime tablosunu üretir)
