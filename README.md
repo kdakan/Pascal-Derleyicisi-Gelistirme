@@ -202,8 +202,8 @@ kelime düzgün-ifade çiftlerinden oluşur. Soldaki kelime, karşılığı olan
 ```
 tamsayı [0-9]+
 %%
-tamsayı          {sscanf(yytext, "%d", &yylval.ival);return TAMS;}
-tamsayı\.tamsayı {sscanf(yytext, "%f", &yylval.fval);return REELS;}
+tamsayı          {sscanf(yytext, "%d", &yylval.ival); return TAMS;}
+tamsayı\.tamsayı {sscanf(yytext, "%f", &yylval.fval); return REELS;}
 ```
 Örnekte görüldüğü gibi işlemler `{ }` içinde yeralan C ifadeleridir. `yytext` değişkeni karakter dizisi olup, tanınan kelimenin (örnekte 15, 6349 gibi bir tamsayı veya 0.359, 1368.4 gibi bir reel sayı) saklandığı alandır. Lex tarafından oluşturulan ve parser tarafından çağırılan `yylex()` tarayıcı fonksiyonu tanıdığı tokeni dönerek parser'a iletir. Bunun dışında tokenin özelliğini de `yylval` global değişkeni ile iletir. `{ }` içindeki ifadeler, C bloku içinde yeraldığından, burada lokal C değişkeni tanımlamak da mümkündür. `yylval` değişkeninin tipi, YACC'nin oluşturduğu parser içinde tanımlanmıştır.
 
@@ -359,7 +359,7 @@ değişken N <- T
 değişken 1	 	 
 dönüş adresi	 	 
 dinamik link	 	 
-statik link	<- B
+statik link <- B
 parametre M	 	 
 ...	 	 
 parametre 1	 	 
@@ -427,26 +427,26 @@ OPR 0,6	    alt bitini al	POP A, PUSH (A AND 1)
 OPR 0,7	    kalanını al	POP A, POP B, PUSH (B MOD A)
 OPR 0,8	    eşit mi	POP A, POP B, PUSH (B =? A)
 OPR 0,9	    farklı mı	POP A, POP B, PUSH (B <>? A)
-OPR 0,10	küçük mü	POP A, POP B, PUSH (B <? A)
-OPR 0,11	büyük eşit mi	POP A, POP B, PUSH (B >=? A)
-OPR 0,12	büyük mü	POP A, POP B, PUSH (B >? A)
-OPR 0,13	küçük eşit mi	POP A, POP B, PUSH (B <=? A)
-OPR 0,14	veya	POP A, POP B, PUSH (B OR A)
-OPR 0,15	ve	POP A, POP B, PUSH (B AND A)
-OPR 0,16	değil	POP A, PUSH (NOT A)
-OPR 0,17	sola shift	POP A, POP B, PUSH (B sola shift (A kere))
-OPR 0,18	sağa shift	POP A, POP B, PUSH (B sağa shift (A kere))
-OPR 0,19	arttır	POP A, PUSH (A+1)
-OPR 0,20	eksilt	POP A, PUSH (A-1)
-OPR 0,21	kopyala	POP A, PUSH A, PUSH A
+OPR 0,10    küçük mü	POP A, POP B, PUSH (B <? A)
+OPR 0,11    büyük eşit mi	POP A, POP B, PUSH (B >=? A)
+OPR 0,12    büyük mü	POP A, POP B, PUSH (B >? A)
+OPR 0,13    küçük eşit mi	POP A, POP B, PUSH (B <=? A)
+OPR 0,14    veya	POP A, POP B, PUSH (B OR A)
+OPR 0,15    ve	POP A, POP B, PUSH (B AND A)
+OPR 0,16    değil	POP A, PUSH (NOT A)
+OPR 0,17    sola shift	POP A, POP B, PUSH (B sola shift (A kere))
+OPR 0,18    sağa shift	POP A, POP B, PUSH (B sağa shift (A kere))
+OPR 0,19    arttır	POP A, PUSH (A+1)
+OPR 0,20    eksilt	POP A, PUSH (A-1)
+OPR 0,21    kopyala	POP A, PUSH A, PUSH A
 LOD L,D	    adresten yükle	A'yi (L,D)'den yükle, PUSH A
 LOD 255,0   stack üzerindeki adresten yükle	POP A, POP adres, A'nin alt byte'ini adrese yükle
 LODX L,D    indexli yükle	POP index, A'yi (L,D)+index'ten yükle, PUSH A
 STO L,D	    stack üzerinden adrese yükle	POP A, A'yi (L,D)'ye yükle
-STO 255,0	stack üzerinden stack'teki adrese yükle	POP A, POP adres, A'nin alt byte'ini adrese yükle
-STOX L,D	indexli yükle	POP index, POP A, A'yi (L,D)+index'e yükle
+STO 255,0   stack üzerinden stack'teki adrese yükle	POP A, POP adres, A'nin alt byte'ini adrese yükle
+STOX L,D    indexli yükle	POP index, POP A, A'yi (L,D)+index'e yükle
 CAL L,A	    çağır	(L,A)'yı çağır
-CAL 255,0	stack'teki adresi çağır	POP adres, PUSH dönüş adresi (=pc), adrese dallan
+CAL 255,0   stack'teki adresi çağır	POP adres, PUSH dönüş adresi (=pc), adrese dallan
 INT 0,N	    T ye N ekle	T=T+N
 JMP 0,A	    dallan	(0,A)'ya dallan
 JPC 0,A	    doğruysa dallan	POP A, eğer (A and 1) = 0 ise (0,A)'ya dallan
@@ -464,28 +464,28 @@ PUSH X 'in anlamı: T'yi 1 arttır, X'i T'nin gösterdiği elemana yükle.
 ## 17. Temel Pascal yapıları için kod şablonları:
 ```
 Pascal deyimi	               p-code karşılığı
-x+10*y[5]	                   LOD x
- 	                           LIT 10
+x+10*y[5]                      LOD x
+                               LIT 10
                                LIT 5
                                LODX Y
                                OPR *
                                OPR +
  	 
-a:=expr;	                   (expr)
- 	                           STO a
+a:=expr;                       (expr)
+                               STO a
  	 
-p^=expr;	                   (expr)
- 	                           STO 255 p
+p^=expr;                       (expr)
+                               STO 255 p
  	 
 if expr then stmt1 else stmt2; (expr)
- 	                           JPC 0,1b1
+                               JPC 0,1b1
                                (stmt1)
                                JMP 1b2
                                1b1: (stmt2)
                                1b2: ...
  	 
 for i=expr1 to expr2 do stmt;  (expr1)
- 	                           STO I
+                               STO I
                                (expr2)
                                1b1: OPR CPY
                                LOD I
@@ -498,8 +498,8 @@ for i=expr1 to expr2 do stmt;  (expr1)
                                JMP 1b1
                                1b2: INT -1
  	 
-while expr do stmt	           1b1: (expr)
- 	                           JPC 0,1b2
+while expr do stmt             1b1: (expr)
+                               JPC 0,1b2
                                (stmt)
                                JMP 1b1
                                1b2: ...
@@ -525,11 +525,11 @@ else stmt3 end;	               OPR =
                                1b4: INT -1
  	 
 repeat stmt until expr;	       1b1: (stmt)
- 	                           (expr)
+                               (expr)
                                JPC 0,1b1
  	 
 i=funca(expr1,expr2);	       INT 1
- 	                           (expr1)
+                               (expr1)
                                (expr2)
                                CAL funca
                                INT -2
