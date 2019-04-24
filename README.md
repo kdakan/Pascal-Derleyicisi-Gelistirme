@@ -9,7 +9,7 @@
 - [ 5. Nitelikler (attributes) ve Genişletilmiş Gramer](#5-nitelikler-attributes-ve-genişletilmiş-gramer)
 - [ 6. Lex ve YACC kullanımı](#6-lex-ve-yacc-kullanımı)
 - [ 7. Lex dosya yapısı](#7-lex-dosya-yapısı)
-- [ 8. Lex düzenli-ifadeleri ve operatörler](#8-lex-düzenli-ifadeleri-regular-expressions-ve-operatörler)
+- [ 8. Lex düzenli-ifadeleri (regular expressions) ve operatörler](#8-lex-düzenli-ifadeleri-regular-expressions-ve-operatörler)
 - [ 9. Lex tanımları](#9-lex-tanımları)
 - [10. YACC dosya yapısı](#10-yacc-dosya-yapısı)
 - [11. YACC Tanımları](#11-yacc-tanımları)
