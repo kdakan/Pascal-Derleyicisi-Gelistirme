@@ -9,7 +9,7 @@
 - [ 5. Nitelikler (attributes) ve Genişletilmiş Gramer](#5-nitelikler-attributes-ve-genişletilmiş-gramer)
 - [ 6. Lex ve YACC kullanımı](#6-lex-ve-yacc-kullanımı)
 - [ 7. Lex dosya yapısı](#7-lex-dosya-yapısı)
-- [ 8. Lex düzgün-ifadeleri ve operatörler](#8-lex-düzgün-ifadeleri-ve-operatörler)
+- [ 8. Lex düzenli-ifadeleri ve operatörler](#8-lex-düzenli-ifadeleri-ve-operatörler)
 - [ 9. Lex tanımları](#9-lex-tanımları)
 - [10. YACC dosya yapısı](#10-yacc-dosya-yapısı)
 - [11. YACC Tanımları](#11-yacc-tanımları)
@@ -257,87 +257,123 @@ ifade    : ifade '+' ifade       {$$=$1+$3;}
 ```
 gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetilir:
 
-<table>
-  <tbody>
-    <tr>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center">+</td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center"></td>
-    </tr>  
-    <tr>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center">/</td>
-        <td align="center"></td>
-        <td align="center">\</td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center"></td>
-    </tr>
-    <tr>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center">/</td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center">*</td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center"></td>
-    </tr>
-    <tr>
-        <td align="center"></td>
-        <td align="center">/</td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center">/</td>
-        <td align="center"></td>
-        <td align="center">\</td>
-        <td align="center"></td>
-        <td align="center"></td>
-    </tr>
-    <tr>
-        <td align="center">/</td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center">*</td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center"></td>
-        <td align="center">^</td>
-        <td align="center"></td>
-    </tr>
-    <tr>
-        <td align="center">|</td>
-        <td align="center"></td>
-        <td align="center">/</td>
-        <td align="center"></td>
-        <td align="center">\</td>
-        <td align="center"></td>
-        <td align="center">/</td>
-        <td align="center"></td>
-        <td align="center">\</td>
-    </tr>
-    <tr>
-        <td align="center">1</td>
-        <td align="center"></td>
-        <td align="center">2</td>
-        <td align="center"></td>
-        <td align="center">3</td>
-        <td align="center"></td>
-        <td align="center">4</td>
-        <td align="center"></td>
-        <td align="center">5</td>
-    </tr>
-  </tbody>
-</table>
+<table border="0">
+  <tbody><tr>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td align="center"><b><font face="Courier New">i</font></b></td>
+    <td align="center"><b><font face="Courier New">f</font></b></td>
+    <td align="center"><b><font face="Courier New">a</font></b></td>
+    <td align="center"><b><font face="Courier New">d</font></b></td>
+    <td align="center"><b><font face="Courier New">e</font></b></td>
+  </tr>
+  <tr>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">\</font></b></td>
+  </tr>
+  <tr>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td align="center"><b><font face="Courier New">i</font></b></td>
+    <td align="center"><b><font face="Courier New">f</font></b></td>
+    <td align="center"><b><font face="Courier New">a</font></b></td>
+    <td align="center"><b><font face="Courier New">d</font></b></td>
+    <td align="center"><b><font face="Courier New">e</font></b></td>
+  </tr>
+  <tr>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">|</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">\</font></b></td>
+  </tr>
+  <tr>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td align="center"><b><font face="Courier New">i</font></b></td>
+    <td align="center"><b><font face="Courier New">f</font></b></td>
+    <td align="center"><b><font face="Courier New">a</font></b></td>
+    <td align="center"><b><font face="Courier New">d</font></b></td>
+    <td align="center"><b><font face="Courier New">e</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">|</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td align="center"><b><font face="Courier New">i</font></b></td>
+    <td align="center"><b><font face="Courier New">f</font></b></td>
+    <td align="center"><b><font face="Courier New">a</font></b></td>
+    <td align="center"><b><font face="Courier New">d</font></b></td>
+    <td align="center"><b><font face="Courier New">e</font></b></td>
+  </tr>
+  <tr>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">|</font></b></td>
+    <td><b><font face="Courier New">\</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">|</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">/</font></b></td>
+    <td><b><font face="Courier New">|</font></b></td>
+    <td><b><font face="Courier New">\</font></b></td>
+  </tr>
+  <tr>
+    <td><b><font face="Courier New">1</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">+</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">2</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">*</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">3</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">*</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">4</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">^</font></b></td>
+    <td><b><font face="Courier New">&nbsp;</font></b></td>
+    <td><b><font face="Courier New">5</font></b></td>
+  </tr>
+</tbody></table>
 
 - Türetme, aynen bu ağaç yapısının postorder taranma sırasını izler. Yani her dal için önce o dalın soldan başlayarak tüm alt dalları taranır, sonra da dalın kendisi taranır. 
 - Üretim kurallarının yanında yeralan işlemler, { } içerisinde C ifadeleridir (C bloku). Burada $n şeklindeki hayali değişkenler, sembollerin niteliklerine karşılık gelirler. Soldaki ara sembolün niteliği $0 veya $$ ile, sağdaki k.ıncı sembolün niteliği de $k ile gösterilir. { } içerisinde, diğer işlemlerin yanısıra $1,$2,...,$n işlenerek elde edilen sonuç $$'a atanır. 
