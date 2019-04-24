@@ -1,6 +1,4 @@
-# PASCAL DERLEYİCİSİ GELİŞTİRME
-
-1997 senesinde İTÜ Matematik Mühendisliği son sınıftayken yapmış olduğum bitirme tezim "Pascal derleyicisi geliştirme" ile ilgili elimde kalan pek birşey yok. O tarihte 10-15 bin satır C kodu yazmış olduğumu hatırlıyorum, 3 ay full-time uğraşmıştım. O tarihdeki floppy disket de 2000 lerin başlarında ölmüştü. Ancak 1998'de fortunecity.com da bu derleyiciyi tanıttığım bir giriş yazım vardı, o yazının kopyasını da https://web.archive.org adresinden bulabildim. Burada toparlamış olduğum bilgileri tekrar formatlayıp github'a koydum. O dönem kullandığım teknikleri gayet açık anlatmışım. Şimdi sıfırdan geliştirecek olsam yine benzer teknikleri kullanırdım, ancak yacc/lex/c yerine muhtemelen antlr/c# ile geliştirirdim.
+# C, YACC, LEX İLE PASCAL DERLEYİCİSİ GELİŞTİRME
 
 - [ 1. Derleyici bileşenleri](#1-derleyici-bileşenleri)
 - [ 2. Gramer, üretim, alfabe, dil](#2-gramer-üretim-alfabe-dil)
@@ -21,6 +19,8 @@
 - [17. Temel Pascal yapıları için p-kod şablonları](#17-temel-pascal-yapıları-için-p-kod-şablonları)
 - [18. Derleyicide kullanılmış olan veri yapıları](#18-derleyicide-kullanılmış-olan-veri-yapıları)
 - [19. Derleyicide kullanılmış olan tipler ve fonksiyonlar](#19-derleyicide-kullanılmış-olan-tipler-ve-fonksiyonlar)
+
+1997 senesinde üniversite son sınıftayken geliştirdiğim Pascal derleyicisinden geriye elimde kalan pek birşey yok. O tarihte 10-15 bin satır C kodu yazmış olduğumu hatırlıyorum, ancak 2000'lerin başında floppy disketin bozulması nedeniyle bu kodlar malesef kayboldu. 1998'de fortunecity.com da bu derleyiciyi tanıttığım bir giriş yazım vardı, o yazının kopyasını da archive.org sitesinden bulabildim. Bu makaleyi tekrar formatlayıp github'a koydum. O dönem kullandığım teknikler şu an için de geçerli, zaten derleyici tasarımında 1960'lardan beri değişen birşey yok.
 
 ## 1. Derleyici bileşenleri:
 Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
