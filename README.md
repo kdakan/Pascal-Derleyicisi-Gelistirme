@@ -13,7 +13,7 @@
 - [ 9. Lex tanımları](#9-lex-tanımları)
 - [10. YACC dosya yapısı](#10-yacc-dosya-yapısı)
 - [11. YACC Tanımları](#11-yacc-tanımları)
-- [12. Ağaç Türetim Örneği](#12-ağaç-türetim-örneği)
+- [12. Hesap Makinası Örneği](#12-hesap-makinası-örneği)
 - [13. Değişkenlerin depolanışı ve bloklar arası bağlantılar](#13-değişkenlerin-depolanışı-ve-bloklar-arası-bağlantılar)
 - [14. Sembol tablosu](#14-sembol-tablosu)
 - [15. Genel olarak P-kodlar](#15-genel-olarak-p-kodlar)
@@ -233,7 +233,7 @@ C ifadeleri (kullanıcı fonksiyonları ve main() fonksiyonu)
 
 İşlemlerin öncelikleri `%left`, `%right`, veya `%nonassoc` ile tanımlandıkları satırın konumuyla orantılıdır. Tanımı aşağıda yeralan işlemin önceliği, daha yukarıda tanımlanmış olan işlemin önceliğinden üstündür. Tanımlarda alt satırlara inildikçe işlemlerin önceliği artar. 
 
-## 12. Ağaç Türetim Örneği:
+## 12. Hesap Makinası Örneği:
 ```
 %{
 #define  YYSTYPE int /* yylval tipi ve YACC stack tipi tamsayı */
@@ -242,7 +242,7 @@ C ifadeleri (kullanıcı fonksiyonları ve main() fonksiyonu)
 %left    '+' '-'
 %left    '*' '/'
 %right   '^'
-%left EKSİ
+%left    EKSİ
 %%
 ifade    : ifade '+' ifade       {$$=$1+$3;}
          | ifade '-' ifade       {$$=$1-$3;}
@@ -388,19 +388,47 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
 - Tanımlanan bir sembol, tanımlandığı blok ve bunun içindeki tüm alt bloklar içinden görülebilir, üst bloklardan görülemez. Depolanma yani yaşam süresi de, o bloğun ömrü kadardır. 
 - Fonksiyon ve prosedürler, rekürsif biçimde kendi kendilerini çağırabilirler. Geçici (lokal) değişkenler de tanımlanabilir. Bütün bunlar, en uygun şekilde stack üzerinde sağlanabilir. 
 
-Programın çalışma süresince stack'in aldığı genel yapı şöyledir:
-```
-değişkenN <- T
-...	 	 
-değişken1	 	 
-dönüş adresi	 	 
-dinamik link	 	 
-statik link <- B
-parametreM	 	 
-...	 	 
-parametre1	 	 
-dönüş değeri	 	 
-```
+Programın çalışma süresince stack'in aldığı genel yapı (stack frame) şu şekildedir:
+<table><tbody>
+  <tr>
+    <td align="center"><b><font face="Courier New">değişken<sub>N</sub></font></b></td>
+    <td align="left"><-</td>
+    <td align="left"><b><font face="Courier New">T</font></b></td></tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">...</font></b></td>
+  </tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">değişken<sub>2</sub></font></b></td>
+  </tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">değişken<sub>1</sub></font></b></td>
+  </tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">dönüş adresi</font></b></td>
+  <tr>
+    <td align="center"><b><font face="Courier New">dinamik link</font></b></td>
+  </tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">statik link</font></b></td>
+    <td align="left"><-</td>
+    <td align="left"><b><font face="Courier New">B</font></b></td></tr>
+  </tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">parametre<sub>M</sub></font></b></td>
+  </tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">...</font></b></td>
+  </tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">parametre<sub>2</sub></font></b></td>
+  </tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">parametre<sub>1</sub></font></b></td>
+  </tr>
+  <tr>
+    <td align="center"><b><font face="Courier New">dönüş değeri</font></b></td>
+  </tr>
+</tbody></table>
 
 - Burada B ve T, P-makinesi adı verilen ve derlenmiş arakodun (P-kod) çalışacağı sanal makinenin iki yazmacıdır. T, stack'in tepesini gösteren, B ise stack'i adresleyen pointerdır. 
 - Bütün adresler, B'nin tuttuğu base adrese pozitif veya negatif bir ofset eklenerek belirtilir. Parametre1, ..., ParametreM o an işleyen fonksiyonun parametreleri için, değişken1, ..., değişkenN fonksiyonun içinde tanımlanmış olan lokal değişkenler için, dönüş değeri ise fonksiyonun dönüş değeri için ayrılmış alanı gösterir. 
