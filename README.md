@@ -233,7 +233,7 @@ C ifadeleri (kullanıcı fonksiyonları ve main() fonksiyonu)
 
 İşlemlerin öncelikleri `%left`, `%right`, veya `%nonassoc` ile tanımlandıkları satırın konumuyla orantılıdır. Tanımı aşağıda yeralan işlemin önceliği, daha yukarıda tanımlanmış olan işlemin önceliğinden üstündür. Tanımlarda alt satırlara inildikçe işlemlerin önceliği artar. 
 
-## 12. Hesap mMakinası örneği:
+## 12. Hesap makinası örneği:
 ```
 %{
 #define  YYSTYPE int /* yylval tipi ve YACC stack tipi tamsayı */
