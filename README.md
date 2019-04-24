@@ -206,7 +206,7 @@ tamsayı [0-9]+
 tamsayı          {sscanf(yytext, "%d", &yylval.ival); return TAMS;}
 tamsayı\.tamsayı {sscanf(yytext, "%f", &yylval.fval); return REELS;}
 ```
-Örnekte görüldüğü gibi işlemler `{ }` içinde yeralan C ifadeleridir. `yytext` değişkeni karakter dizisi olup, tanınan kelimenin (örnekte 15, 6349 gibi bir tamsayı veya 0.359, 1368.4 gibi bir reel sayı) saklandığı alandır. Lex tarafından oluşturulan ve parser tarafından çağırılan `yylex()` tarayıcı fonksiyonu tanıdığı tokeni dönerek parser'a iletir. Bunun dışında tokenin niteliğini de `yylval` global değişkeni ile iletir. `{ }` içindeki ifadeler, C bloku içinde yeraldığından, burada lokal C değişkeni tanımlamak da mümkündür. `yylval` değişkeninin tipi, YACC'nin oluşturduğu parser içinde tanımlanmıştır.
+Örnekte görüldüğü gibi işlemler `{ }` içinde yeralan C ifadeleridir. `yytext` değişkeni karakter dizisi olup, tanınan kelimenin (örnekte 15, 6349 gibi bir tamsayı veya 0.359, 1368.4 gibi bir reel sayı) saklandığı alandır. Lex tarafından oluşturulan ve parser tarafından çağırılan `yylex()` tarayıcı fonksiyonu tanıdığı tokeni dönerek parser'a iletir. Bunun dışında tokenin niteliğini de `yylval` global değişkeni ile iletir. `{ }` içindeki ifadeler, C bloğu içinde yeraldığından, burada lokal C değişkeni tanımlamak da mümkündür. `yylval` değişkeninin tipi, YACC'nin oluşturduğu parser içinde tanımlanmıştır.
 
 ## 10. YACC dosya yapısı:
 ```
@@ -376,7 +376,7 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
 </tbody></table>
 
 - Türetme, aynen bu ağaç yapısının post-order taranma sırasını izler. Yani her dal için önce o dalın soldan başlayarak tüm alt dalları taranır, sonra da dalın kendisi taranır. 
-- Üretim kurallarının yanında yeralan işlemler, { } içerisinde C ifadeleridir (C bloku). Burada $n şeklindeki hayali değişkenler, sembollerin niteliklerine karşılık gelirler. Soldaki ara sembolün niteliği $0 veya $$ ile, sağdaki k.ıncı sembolün niteliği de $k ile gösterilir. { } içerisinde, diğer işlemlerin yanısıra $1,$2,...,$n işlenerek elde edilen sonuç $$'a atanır. 
+- Üretim kurallarının yanında yeralan işlemler, { } içerisinde C ifadeleridir (C bloğu). Burada $n şeklindeki hayali değişkenler, sembollerin niteliklerine karşılık gelirler. Soldaki ara sembolün niteliği $0 veya $$ ile, sağdaki k.ıncı sembolün niteliği de $k ile gösterilir. { } içerisinde, diğer işlemlerin yanısıra $1,$2,...,$n işlenerek elde edilen sonuç $$'a atanır. 
 - Bu değerler, aslında parser'ın kullandığı stack üzerinde sembollerle birlikte tutularak yukarı doğru işlenerek yolalır, yoksa gerçekte ağaç veri yapısı kullanılmaz. 
 - En üst kuralın solundaki sembol, ya da %start ile tanımlanmış başka bir sembol, cümlesel semboldür. Tüm semboller, uç sembollerden başlamak üzere, sağ tarafında yeraldıkları kuralın solundaki ara sembole, aşağıdan yukarı doğru türetilirler. 
 - Bu aşamalarda taşınan nitelikler kullanılarak ve işlenerek yukarı aşamalara geçirilerek, sonunda cümlesel sembole ulaşıldığında derlenme süreci biter. 
@@ -432,7 +432,7 @@ Programın çalışma süresince stack'in aldığı genel yapı (stack frame) ş
 
 - Burada B ve T, P-makinesi adı verilen ve derlenmiş arakodun (P-kod) çalışacağı sanal makinenin iki yazmacıdır. T, stack'in tepesini gösteren, B ise stack'i adresleyen pointerdır. 
 - Bütün adresler, B'nin tuttuğu base adrese pozitif veya negatif bir ofset eklenerek belirtilir. Parametre1, ..., ParametreM o an işleyen fonksiyonun parametreleri için, değişken1, ..., değişkenN fonksiyonun içinde tanımlanmış olan lokal değişkenler için, dönüş değeri ise fonksiyonun dönüş değeri için ayrılmış alanı gösterir. 
-- Statik link, fonksiyonu (bloku) içeren üst blok fonksiyonlarındaki değişkenlere, bu fonksiyon tarafınfan erişilebilmesi için konmuş olan, bir üst bloğun base adresidir. 
+- Statik link, fonksiyonu (bloğu) içeren üst blok fonksiyonlarındaki değişkenlere, bu fonksiyon tarafınfan erişilebilmesi için konmuş olan, bir üst bloğun base adresidir. 
 - Dinamik link, bu fonksiyonun işleyişi sona erdiğinde çağrıldığı noktaya geri döndüğünde, o fonksiyonun değişkenleri ve diğer stack yapısına tekrar dönmesini sağlayan, çağıran fonksiyonun base adresidir. 
 - Dönüş adresi, fonksiyonun geri döndüğü zaman çalıştırılacak komutun adresidir. 
 - P-makinesi, bütün komutları stack uzerinde işlem yapan bir sanal makinedir. Komutlarına P-kodu denir.
@@ -646,11 +646,10 @@ olarak değişen bir stack yapısı elde edilir.
 ## 19. Derleyicide kullanılmış olan tipler ve fonksiyonlar:
 
 - `symblocktop`: Sembol tablosundaki (stack'teki) en üst elemanı gösteren pointer'dır.
-- `pushsymblock()`: Sembol stack'ine yeni sembol bloku yükler. (stack'i 1 blok büyültür)
-- `popsymblock()`: Sembol stack'inden bir sembol bloku atar. (stack'i 1 blok küçültür.
-- `instconst()`, `instlabel()`, `insttype()`, `instvar()`: Sembol stack'inin üstündeki bloka sırasıyla yeni sabit, etiket, tip ve değişken ekler.
-- `makeptrtype()`, `makeenumtype()`, `makerangetype()`, `makeidtype()`, `makerectype()`, `makearraytype()`, `makeuniontype()`,
-   `makesettype()`, `makefiletype()`: Çeşitli tip hücreleri oluşturur. Değişkenlerin tipleri, sembol tablosunda birbirine bağlı tip hücreleri şeklinde tutulur.
+- `pushsymblock()`: Sembol stack üzerine yeni bir sembol bloğu yükler. (stack'i bir blok büyütür)
+- `popsymblock()`: Sembol stack'deki tepe konumdaki sembol bloğunu kaldırır. (stack'i bir blok küçültür.
+- `instconst()`, `instlabel()`, `insttype()`, `instvar()`: Sembol stack'deki tepe konumdaki sembol bloğunun içerisine sırasıyla yeni sabit, etiket, tip ve değişken ekler.
+- `makeptrtype()`, `makeenumtype()`, `makerangetype()`, `makeidtype()`, `makerectype()`, `makearraytype()`, `makeuniontype()`, `makesettype()`, `makefiletype()`: Çeşitli tip hücreleri oluşturur. Değişkenlerin tipleri, sembol tablosunda birbirine bağlı tip hücreleri şeklinde tutulur.
 
 Tip hücresi şöyle tanımlıdır:
 ```
