@@ -3,24 +3,24 @@
 1997 senesinde İTÜ Matematik Mühendisliği son sınıftayken yapmış olduğum bitirme tezim "Pascal derleyicisi geliştirme" ile ilgili elimde kalan pek birşey yok. O tarihte 10-15 bin satır C kodu yazmış olduğumu hatırlıyorum, 3 ay full-time uğraşmıştım. O tarihdeki floppy disket de 2000 lerin başlarında ölmüştü. Ancak 1998'de fortunecity.com da bu derleyiciyi tanıttığım bir giriş yazım vardı, o yazının kopyasını da https://web.archive.org adresinden bulabildim. Burada toparlamış olduğum bilgileri tekrar formatlayıp github'a koydum. O dönem kullandığım teknikleri gayet açık anlatmışım. Şimdi sıfırdan geliştirecek olsam yine benzer teknikleri kullanırdım, ancak yacc/lex/c yerine muhtemelen antlr/c# ile geliştirirdim.
 
 - [ 1. Derleyici bileşenleri](#1-derleyici-bileşenleri)
-- [ 2. Gramer, Üretim, Alfabe, Dil](#2-gramer-üretim-alfabe-dil)
-- [ 3. Gramerlerin Sınıflandırılması](#3-gramerlerin-sınıflandırılması)
-- [ 4. Gramerlerin Denkliği, Belirsizliği](#4-gramerlerin-denkliği-belirsizliği)
-- [ 5. Nitelikler (attributes) ve Genişletilmiş Gramer](#5-nitelikler-attributes-ve-genişletilmiş-gramer)
+- [ 2. Gramer, üretim, alfabe, dil](#2-gramer-üretim-alfabe-dil)
+- [ 3. Gramerlerin sınıflandırılması](#3-gramerlerin-sınıflandırılması)
+- [ 4. Gramerlerin denkliği ve belirsizliği](#4-gramerlerin-denkliği-ve-belirsizliği)
+- [ 5. Nitelikler (attributes) ve genişletilmiş gramer](#5-nitelikler-attributes-ve-genişletilmiş-gramer)
 - [ 6. Lex ve YACC kullanımı](#6-lex-ve-yacc-kullanımı)
 - [ 7. Lex dosya yapısı](#7-lex-dosya-yapısı)
 - [ 8. Lex düzenli-ifadeleri (regular expressions) ve operatörler](#8-lex-düzenli-ifadeleri-regular-expressions-ve-operatörler)
 - [ 9. Lex tanımları](#9-lex-tanımları)
 - [10. YACC dosya yapısı](#10-yacc-dosya-yapısı)
-- [11. YACC Tanımları](#11-yacc-tanımları)
-- [12. Hesap Makinası Örneği](#12-hesap-makinası-örneği)
+- [11. YACC tanımları](#11-yacc-tanımları)
+- [12. Hesap makinası örneği](#12-hesap-makinası-örneği)
 - [13. Değişkenlerin depolanışı ve bloklar arası bağlantılar](#13-değişkenlerin-depolanışı-ve-bloklar-arası-bağlantılar)
 - [14. Sembol tablosu](#14-sembol-tablosu)
-- [15. Genel olarak P-kodlar](#15-genel-olarak-p-kodlar)
-- [16. P-kod detayları](#16-p-kod-detayları)
-- [17. Temel Pascal yapıları için kod şablonları](#17-temel-pascal-yapıları-için-kod-şablonları)
-- [18. Derleyicide kullanılan veri yapıları](#18-derleyicide-kullanılan-veri-yapıları)
-- [19. Derleyicide kullanılan tipler ve fonksiyonlar](#19-derleyicide-kullanılan-tipler-ve-fonksiyonlar)
+- [15. Genel olarak p-kodlar](#15-genel-olarak-p-kodlar)
+- [16. Detaylarıyla p-kodlar](#16-detaylarıyla-p-kodlar)
+- [17. Temel Pascal yapıları için p-kod şablonları](#17-temel-pascal-yapıları-için-p-kod-şablonları)
+- [18. Derleyicide kullanılmış olan veri yapıları](#18-derleyicide-kullanılmış-olan-veri-yapıları)
+- [19. Derleyicide kullanılmış olan tipler ve fonksiyonlar](#19-derleyicide-kullanılmış-olan-tipler-ve-fonksiyonlar)
 
 ## 1. Derleyici bileşenleri:
 Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
@@ -37,7 +37,7 @@ Bir kaynak programın derlenmesi, şu aşamalardan oluşur:
 - Optimizasyonun daha etkin yapılabilmesi için ve değişik makineler için kod üretilebilmesi için, bu işler için daha uygun ve daha genel bir arakod üretilip, daha sonra bu arakod optimize edilip istenen makine için kod üretilebilir. 
 - Bazı derleyiciler ise sanal bir makine için hızlı yorumlanabilen bir kod üretir ve bu kodu yorumlayarak programı değişik makinelerde çalıştırır.
 
-## 2. Gramer, Üretim, Alfabe, Dil: 
+## 2. Gramer, üretim, alfabe, dil: 
 Bir dilin grameri (G), aşağıda gösterilen sade örnekteki gibi:
 ```
 cümle -> özne nesne yüklem
@@ -60,7 +60,7 @@ yüklem -> gittim | aldı
 - Bir gramerden türetilebilecek tüm cümlelerin kümesine ise dil denir ve L(G) ile gösterilir. 
 - EPSİLON ile gösterilen özel uç sembol, boşluğa, daha doğrusu boşluk karakterine değil de, hiçbirşeye karşılık gelir.
 
-## 3. Gramerlerin Sınıflandırılması:
+## 3. Gramerlerin sınıflandırılması:
 Chomsky sınıflandırmasına göre gramerler genelden özele doğru birbirlerini içeren 4 sınıfa ayrılırlar:
 
 1. Serbest gramerler:
@@ -77,7 +77,7 @@ Chomsky sınıflandırmasına göre gramerler genelden özele doğru birbirlerin
 
 Kelime ve sözdizimi analizinin ayrı ayrı yapılmasının nedeni de, ayrıştırılan dillerin farklı gramer sınıflarından olmasıdır. Kelime analizi çok daha etkin algoritmalarla yapılır.
 
-## 4. Gramerlerin Denkliği, Belirsizliği:
+## 4. Gramerlerin denkliği ve belirsizliği:
 L(G) ve L(H) kümeleri birbirine eşitse, G ve H gramerlerine denk gramerler denir. Üretimler farklı sıralarda uygulanıp aynı bir cümle farklı şekilde türetilebiliyorsa bu gramere belirsiz (ambiguous) gramer denir. Ayrıştırıcı (parser)'ın bu tür belirsiz bir grameri tek şekilde tanıması sağlanmalıdır, aksi halde alınacak sonuçlar her seferinde değişik olacaktır. Belirsiz gramerler, örneğin aritmetik işlemlerde sıkça karşımıza çıkar, bu durumda aritmetik işlemler için sağa veya sola birleşim ve öncelik kuralları tanımlanarak belirsizlik çözülebilir. Örneğin şu gramerde:
 ```
 s -> aa
@@ -153,7 +153,7 @@ a -> x | xx
 
 Bunlardan birisi parser tarafından tercih edilmelidir.
 
-## 5. Nitelikler (attributes) ve Genişletilmiş Gramer:
+## 5. Nitelikler (attributes) ve genişletilmiş gramer:
 Her sembolün taşıdığı kendisine ait nitelikleri bulunur. Üretimlerin yanında bu niteliklerle ilgili işlemler konarak elde edilen gramere genişletilmiş gramer denir. Sol taraftaki sembolün niteliği, sağda yeralan sembollerin nitelikleri işlenerek oluşuyorsa, yani bunların bir fonksiyonuysa:
 
 x -> y1 y2 y3 ... yn ve x.a = f(y1.a, y2.a, y3.a, ..., yn.a) ise
@@ -233,7 +233,7 @@ C ifadeleri (kullanıcı fonksiyonları ve main() fonksiyonu)
 
 İşlemlerin öncelikleri `%left`, `%right`, veya `%nonassoc` ile tanımlandıkları satırın konumuyla orantılıdır. Tanımı aşağıda yeralan işlemin önceliği, daha yukarıda tanımlanmış olan işlemin önceliğinden üstündür. Tanımlarda alt satırlara inildikçe işlemlerin önceliği artar. 
 
-## 12. Hesap Makinası Örneği:
+## 12. Hesap mMakinası örneği:
 ```
 %{
 #define  YYSTYPE int /* yylval tipi ve YACC stack tipi tamsayı */
@@ -375,7 +375,7 @@ gramerinde `1+2*3*4^5` cümlesi aşağıdan yukarı doğru şu sırayla türetil
   </tr>
 </tbody></table>
 
-- Türetme, aynen bu ağaç yapısının postorder taranma sırasını izler. Yani her dal için önce o dalın soldan başlayarak tüm alt dalları taranır, sonra da dalın kendisi taranır. 
+- Türetme, aynen bu ağaç yapısının post-order taranma sırasını izler. Yani her dal için önce o dalın soldan başlayarak tüm alt dalları taranır, sonra da dalın kendisi taranır. 
 - Üretim kurallarının yanında yeralan işlemler, { } içerisinde C ifadeleridir (C bloku). Burada $n şeklindeki hayali değişkenler, sembollerin niteliklerine karşılık gelirler. Soldaki ara sembolün niteliği $0 veya $$ ile, sağdaki k.ıncı sembolün niteliği de $k ile gösterilir. { } içerisinde, diğer işlemlerin yanısıra $1,$2,...,$n işlenerek elde edilen sonuç $$'a atanır. 
 - Bu değerler, aslında parser'ın kullandığı stack üzerinde sembollerle birlikte tutularak yukarı doğru işlenerek yolalır, yoksa gerçekte ağaç veri yapısı kullanılmaz. 
 - En üst kuralın solundaki sembol, ya da %start ile tanımlanmış başka bir sembol, cümlesel semboldür. Tüm semboller, uç sembollerden başlamak üzere, sağ tarafında yeraldıkları kuralın solundaki ara sembole, aşağıdan yukarı doğru türetilirler. 
@@ -460,7 +460,7 @@ C'nin sembolleri
 A'nın sembolleri
 ```
 
-## 15. Genel olarak P-kodlar:
+## 15. Genel olarak p-kodlar:
 ```
 p-kod      opkod   anlamı
 LIT 0,N	    00	   N değerini stack'e yükle
@@ -477,11 +477,11 @@ CSP 0,N	    08	   standart prosedür çağır
 ```
 Not: opkod onaltılık sayı düzenindedir.
 
-## 16. P-kod detayları:
+## 16. Detaylarıyla p-kodlar:
 ```
-p-kod	    yaptığı iş	                              psüdokod
+p-kod	    yaptığı iş	                              algoritmik ifadesi
 LIT 0,N	    N sabitini stack'e yükle                  PUSH N
-OPR 0,0	    prosedür veya fonksiyondan geri dön       RETURN
+OPR 0,0	    prosedür veya fonksiyondan geri dön       geri dön (bloktan çık)
 OPR 0,1	    negatifini al                             POP A, PUSH (-A)
 OPR 0,2	    toplamını al                              POP A, POP B, PUSH (B+A)
 OPR 0,3	    farkını al                                POP A, POP B, PUSH (B-A)
@@ -525,7 +525,7 @@ Not: doğru=1, yanlış=0
 POP X 'in anlamı: T'nin gösterdiği elemanı X'e yükle, T'yi 1 azalt.
 PUSH X 'in anlamı: T'yi 1 arttır, X'i T'nin gösterdiği elemana yükle.
 
-## 17. Temel Pascal yapıları için kod şablonları:
+## 17. Temel Pascal yapıları için p-kod şablonları:
 ```
 Pascal deyimi	               p-code karşılığı
 x+10*y[5]                      LOD x
@@ -599,7 +599,7 @@ i=funca(expr1,expr2);	       INT 1
                                INT -2
 ```
 
-## 18. Derleyicide kullanılan veri yapıları:
+## 18. Derleyicide kullanılmış olan veri yapıları:
 - Bağlı listeler, dinamik diziler oluşturmak için kullanılır. 
 - Listeyi oluşturacak her bir hucre için tek tek C'deki malloc() fonksiyonu ile dinamik bellek ayırılmalı ve bir sonraki hücreyle bağlantısı kurulmalıdır.
 
@@ -643,7 +643,7 @@ Dinamik Stack :
 pointer da stack'in üstünü östermiş olur. Böylece büyüklüğü dinamik
 olarak değişen bir stack yapısı elde edilir.
 
-## 19. Derleyicide kullanılan tipler ve fonksiyonlar:
+## 19. Derleyicide kullanılmış olan tipler ve fonksiyonlar:
 
 - `symblocktop`: Sembol tablosundaki (stack'teki) en üst elemanı gösteren pointer'dır.
 - `pushsymblock()`: Sembol stack'ine yeni sembol bloku yükler. (stack'i 1 blok büyültür)
