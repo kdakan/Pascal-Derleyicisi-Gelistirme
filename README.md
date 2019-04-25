@@ -70,7 +70,7 @@ Chomsky sınıflandırmasına göre gramerler genelden özele doğru birbirlerin
 Üretimler uxv -> uvw şeklindedir. Burada u,v,w⊂V, v≠EPSİLON ve x∈N dir. Yani, x ara sembolü, yalnızca u ve w sembol grupları ile çevrelendiği takdirde v sembol grubu ile türetilebilir.
 
 3. Bağlamdan-bağımsız (context-free) gramerler:
-Üretimler x->v şeklindedir. Burada v∈V ve xeN dir. Programlama dilleri genellikle bu tür gramerlerden üretilir. Bu tür diller her zaman tanınabilir.
+Üretimler x->v şeklindedir. Burada v∈V ve x∈N dir. Programlama dilleri genellikle bu tür gramerlerden üretilir. Bu tür diller her zaman tanınabilir.
 
 4. Sonlu (veya düzenli) gramerler:
 Üretimler x->a veya x->ay şeklindedir. Burada x,y∈N ve a∈T dir. Bu tür gramerler, dilin kelimelerini tanımlamak için kullanılır, yani kelime analizi sırasında ayrıştırılan bir gramerdir. Sonlu gramerler, sonlu durum makineleriyle çok etkin şekilde ayrıştırılabilir.
@@ -78,7 +78,10 @@ Chomsky sınıflandırmasına göre gramerler genelden özele doğru birbirlerin
 Kelime ve sözdizimi analizinin ayrı ayrı yapılmasının nedeni de, ayrıştırılan dillerin farklı gramer sınıflarından olmasıdır. Kelime analizi çok daha etkin algoritmalarla yapılır.
 
 ## 4. Gramerlerin denkliği ve belirsizliği:
-L(G) ve L(H) kümeleri birbirine eşitse, G ve H gramerlerine denk gramerler denir. Üretimler farklı sıralarda uygulanıp aynı bir cümle farklı şekilde türetilebiliyorsa bu gramere belirsiz (ambiguous) gramer denir. Ayrıştırıcı (parser)'ın bu tür belirsiz bir grameri tek şekilde tanıması sağlanmalıdır, aksi halde alınacak sonuçlar her seferinde değişik olacaktır. Belirsiz gramerler, örneğin aritmetik işlemlerde sıkça karşımıza çıkar, bu durumda aritmetik işlemler için sağa veya sola birleşim ve öncelik kuralları tanımlanarak belirsizlik çözülebilir. Örneğin şu gramerde:
+L(G) ve L(H) kümeleri birbirine eşitse, G ve H gramerlerine denk gramerler denir. 
+
+
+Üretimler farklı sıralarda uygulanıp aynı bir cümle farklı şekilde türetilebiliyorsa bu gramere belirsiz (ambiguous) gramer denir. Ayrıştırıcı (parser)'ın bu tür belirsiz bir grameri tek şekilde tanıması sağlanmalıdır, aksi halde alınacak sonuçlar her seferinde değişik olacaktır. Belirsiz gramerler, örneğin aritmetik işlemlerde sıkça karşımıza çıkar, bu durumda aritmetik işlemler için sağa veya sola birleşim ve öncelik kuralları tanımlanarak belirsizlik çözülebilir. Örneğin şu gramerde:
 ```
 s -> aa
 a -> x | xx
@@ -178,22 +181,22 @@ C ifadeleri (kullanıcı fonksiyonları)
 ## 8. Lex düzenli-ifadeleri (regular expressions) ve operatörler:
 Lex'de kullanılan düzenli-ifadeler, lex operatörleri ve tanınması istenen karakterlerden oluşur.
 ```
-.	\n harici tek bir karakter	.a	satır başında olmayan a ve a'dan önceki karakter
-*	sıfır veya daha fazla adet	a[a-z]*	a ile başlayan küçük harfli kelimeler (a dahil)
-+	bir veya daha fazla adet	a[a-z]+	a ile başlayan küçük harfli kelimeler (a hariç)
-?	seçimlik (var veya yok)	        XY?Z	XZ veya XYZ
-|	veya (ya sol ya sağ taraf)	a|b	a veya b
-xy	bitiştirme (x ve y yanyana)	abc	ardarda a, b ve c (abc)
-( )	gruplandırma	                (UNIX)|(Unix)	UNIX veya Unix
-" "	operatörlerin anlamını iptal	c"++"	c++ kelimesi
-\	1. tek op.ün anlamını iptal	c\+\+	c++ kelimesi
-        2. C escape karakterleri	\n	satır sonu karakteri
-        3. sekizlik düzende karşılığı	\176	~ karakteri (ASCII=176)
-[ ]	karakter sınıfı	                [A-Z]	bir büyük harf
-[^ ]	karakter sınıfını hariç tut	[^XYZ]	X,Y ve Z dışında bir karakter
-^	satır başında ifade	        ^(abc)	satır başında abc
-$	satır sonunda ifade	        $a	satır sonunda a
-{m,n}	en az m, en çok n adet ifade	a{1,5}	1 ila 5 adet a
+.	\n harici tek bir karakter	.a	       satır başında olmayan a ve a'dan önceki karakter
+*	sıfır veya daha fazla adet	a[a-z]*	       a ile başlayan küçük harfli kelimeler (a dahil)
++	bir veya daha fazla adet	a[a-z]+	       a ile başlayan küçük harfli kelimeler (a hariç)
+?	seçimlik (var veya yok)	        XY?Z	       XZ veya XYZ
+|	veya (ya sol ya sağ taraf)	a|b	       a veya b
+xy	bitiştirme (x ve y yanyana)	abc	       ardarda a, b ve c (abc)
+( )	gruplandırma	                (UNIX)|(Unix)  UNIX veya Unix
+" "	operatörlerin anlamını iptal	c"++"	       c++ kelimesi
+\	1. tek op.ün anlamını iptal	c\+\+	       c++ kelimesi
+        2. C escape karakterleri	\n	       satır sonu karakteri
+        3. sekizlik düzende karşılığı	\176	       ~ karakteri (ASCII=176)
+[ ]	karakter sınıfı	                [A-Z]	       bir büyük harf
+[^ ]	karakter sınıfını hariç tut	[^XYZ]	       X,Y ve Z dışında bir karakter
+^	satır başında ifade	        ^(abc)	       satır başında abc
+$	satır sonunda ifade	        $a	       satır sonunda a
+{m,n}	en az m, en çok n adet ifade	a{1,5}	       1 ila 5 adet a
 ```
 
 ## 9. Lex tanımları:
